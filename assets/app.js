@@ -90,40 +90,9 @@ const revealIO = new IntersectionObserver(es => es.forEach(en => {
 const observeReveal = root => root.querySelectorAll('[data-reveal],.card').forEach(el => revealIO.observe(el));
 observeReveal(document);
 
-// ---------- hero ----------
-const hero = document.querySelector('.hero');
+// ---------- hero (type only: no images) ----------
+const hero = document.querySelector('.hero'), heroIn = hero.querySelector('.hero-in');
 requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('ready')));
-const heroStack = $('heroStack'), heroImg = $('heroImg'), heroTitle = document.querySelector('.hero-title'), heroBg = document.querySelector('.hero-bg');
-const buildHero = () => {
-  const withImg = works.map(w => ({w, c:coverOf(w)})).filter(x => x.c && x.c.type === 'image');
-  if (!withImg.length) return;
-  const main = withImg.find(x => x.w.category === 'VRChat 월드') || withImg[0];
-  const pic = new Image();
-  pic.decoding = 'async';
-  pic.onload = () => { heroImg.style.backgroundImage = `url("${pic.src}")`; heroImg.classList.add('on'); };
-  pic.src = imgOf(main.c, 'opt');
-  const rest = withImg.filter(x => x !== main).slice(0, 3);
-  heroStack.innerHTML = rest.map(x => `<a class="hero-card" href="#works" data-id="${esc(x.w.id)}" data-depth=""><img src="${esc(imgOf(x.c,'sm'))}" alt="${esc(x.w.title)} 작업 이미지" loading="eager" decoding="async"><span>${esc(x.w.title)}</span></a>`).join('');
-  [...heroStack.children].forEach((el, i) => { el.dataset.depth = [18, 34, 26][i]; setTimeout(() => el.classList.add('on'), 700 + i * 140); });
-};
-heroStack.addEventListener('click', e => {
-  const a = e.target.closest('.hero-card'); if (!a) return;
-  e.preventDefault();
-  const i = works.findIndex(w => w.id === a.dataset.id);
-  if (i > -1) openViewer(works, i, a);
-});
-// mouse parallax (desktop only)
-let mx = 0, my = 0, mTick = false;
-hero.addEventListener('pointermove', e => {
-  if (!mqFine.matches || !motionOK()) return;
-  mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5;
-  if (!mTick) { mTick = true; requestAnimationFrame(() => {
-    mTick = false;
-    heroStack.querySelectorAll('.hero-card').forEach(c => { const d = +c.dataset.depth || 20; c.style.transform = `translate3d(${(-mx*d).toFixed(1)}px,${(-my*d).toFixed(1)}px,0)`; });
-    heroImg.style.translate = `${(mx*-14).toFixed(1)}px ${(my*-10).toFixed(1)}px`;
-  }); }
-});
-hero.addEventListener('pointerleave', () => { heroStack.querySelectorAll('.hero-card').forEach(c => c.style.transform = ''); heroImg.style.translate = ''; });
 
 // ---------- scroll loop (parallax, nav state, services pin, process bar) ----------
 let lastY = scrollY, ticking = false;
@@ -135,8 +104,10 @@ const onScroll = () => {
   if (!menu.classList.contains('open')) nav.classList.toggle('hide', y > lastY && y > vh * .6 && !viewerOpen);
   lastY = y;
   if (motionOK() && y < vh * 1.2) {
-    heroBg.style.transform = `translate3d(0,${(y * .35).toFixed(1)}px,0)`;
-    heroTitle.style.transform = mqWide.matches ? `translate3d(0,${(y * -.12).toFixed(1)}px,0)` : '';
+    // title drifts up and fades out as the next section arrives (fade only on small screens)
+    const p = Math.min(1, y / (vh * .85));
+    heroIn.style.transform = mqWide.matches ? `translate3d(0,${(-y * .28).toFixed(1)}px,0)` : '';
+    heroIn.style.opacity = (1 - p * (mqWide.matches ? 1 : .7)).toFixed(3);
   }
   if (document.body.classList.contains('pinned')) {
     const r = svcPin.getBoundingClientRect(), span = r.height - vh;
@@ -226,7 +197,7 @@ wk.addEventListener('click', e => {
 
 fetch('works.json?v=' + Date.now()).then(r => r.ok ? r.json() : []).then(d => { works = Array.isArray(d) ? d : []; })
   .catch(() => { works = []; })
-  .finally(() => { renderWorks(); buildHero(); renderSvc(); setPinMode(); onScroll(); });
+  .finally(() => { renderWorks(); renderSvc(); setPinMode(); onScroll(); });
 
 // ---------- viewer ----------
 const viewer = $('viewer'), vBody = $('vBody');
