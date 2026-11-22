@@ -75,7 +75,7 @@
       <ol class="svc-list" id="svc"></ol>
     </div>
   </div>
-  <p class="wrap note svc-note">가격은 샘플이에요. 실제 금액은 작업 범위를 보고 디스코드에서 견적을 드려요.</p>
+  <p class="wrap note svc-note">표시된 가격은 기본 작업 범위 기준의 참고 견적입니다. 작업 난이도, 제작 범위, 납품 형식, 상업적 이용 조건에 따라 최종 견적이 달라질 수 있습니다.</p>
 </section>
 
 <section class="sec process" id="process" aria-labelledby="procTitle">
@@ -108,7 +108,7 @@
           <div class="field"><label for="nick">활동명 <span class="req" aria-hidden="true">*</span></label><input id="nick" placeholder="예: 별빛 하루" autocomplete="nickname" required></div>
           <div class="field"><label for="dc">디스코드 아이디 <span class="req" aria-hidden="true">*</span></label><input id="dc" placeholder="예: haru_live" autocomplete="off" required></div>
         </div>
-        <fieldset class="field"><legend>작업 종류 <span class="req" aria-hidden="true">*</span> <span class="hint-in">여러 개 선택 가능</span></legend><div class="chips" id="types"></div></fieldset>
+        <fieldset class="field"><legend>작업 종류 <span class="req" aria-hidden="true">*</span> <span class="hint-in">여러 개 선택 가능</span></legend><div class="chips" id="types"></div><div class="est" id="est" aria-live="polite" hidden></div></fieldset>
         <div class="field"><label for="link">채널 링크</label><input id="link" placeholder="유튜브·치지직·트위치 채널 주소" inputmode="url" autocomplete="url"></div>
         <div class="two">
           <div class="field"><label for="budget">예산</label><select id="budget"><option value="">선택 안 함</option><option>10만 원 이하</option><option>10~30만 원</option><option>30~60만 원</option><option>60~100만 원</option><option>100만 원 이상</option><option>견적 받아보고 결정</option></select></div>
@@ -180,6 +180,7 @@
 </div>
 
 <script src="config.js"></script>
+<script src="assets/pricing.js"></script>
 <script src="assets/app.js" defer></script>
 </body>
 </html>
