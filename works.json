@@ -1,5 +1,32 @@
 [
   {
+    "id": "20261122-mjz74",
+    "title": "댄스 영상 배경",
+    "kind": "photo",
+    "category": "방송 배경·무대",
+    "date": "2026.05",
+    "summary": "댄스 영상 배경",
+    "desc": "작업 툴: 마야, 섭스턴스페인트, 유니티\n작업 기간 1주일",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/01-4.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/02-3.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/03-2.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/04-1.jpg"
+      }
+    ]
+  },
+  {
     "id": "20261122-si9wo",
     "title": "방송 대기창 3D 제작건",
     "kind": "photo",
