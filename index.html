@@ -3,417 +3,190 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>리예 공방 외주</title>
+<title>RIYE STUDIO · 리예 공방 — VTuber·VRChat·3D 외주 스튜디오</title>
+<meta name="description" content="VTuber 방송 배경, VRChat 월드, 3D 소품·의상 모델링, 방송용 영상을 만드는 리예 공방(RIYE STUDIO). 디스코드로 바로 의뢰하세요.">
+<meta name="theme-color" content="#0b0b0d">
+<meta property="og:title" content="RIYE STUDIO · 리예 공방">
+<meta property="og:description" content="VTuber·VRChat·3D 모델링·방송 영상 외주 스튜디오">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-/* VOICE: 스트리머끼리 말하듯 친근하지만 일정·가격·저작권은 또렷하게
-   IDEA: 방송 화면 위 오버레이 + VRChat 월드 입구 — 의뢰서가 곧 "씬 설정 패널"
-   PICTURE: 떠 있는 VR 월드 섬, 포털 링, 무대 조명, 채팅 말풍선이 있는 SVG 장면
-   COLOUR and TYPE: 핫핑크 필드 + 레몬 옐로 + 진한 자두색 잉크 / Black Han Sans + IBM Plex Sans KR
-   LAYOUT: 핑크 히어로(제목·장면) → 작업 종류 → 진행 순서 → 작업물 → 의뢰서 → FAQ → 디스코드 푸터 */
-:root{color-scheme:light dark;
---bg:light-dark(#fff7f9,#170d1f);--ink:light-dark(#1b1030,#f8eefc);--mute:light-dark(#5d4d6e,#c4b2d4);
---pink:#ff3d7f;--pinkd:light-dark(#e62a6c,#ff5c93);--yel:#ffd23f;--card:light-dark(#ffffff,#24152f);
---line:light-dark(#f0d6e0,#3a2647);--plum:light-dark(#1b1030,#0f0816);--disc:#5865f2}
-:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
-*{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans KR",system-ui,sans-serif;overflow-x:clip}
-html{scroll-padding-top:72px;scroll-behavior:smooth}
-a{color:inherit}
-.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
-.wrap{max-width:1240px;margin:0 auto}
-h1,h2,h3{font-family:"Black Han Sans","IBM Plex Sans KR",sans-serif;font-weight:400;line-height:1.1;text-wrap:balance;margin:0}
-h1{font-size:clamp(38px,6vw,64px)}h2{font-size:clamp(30px,4vw,44px);margin-bottom:12px}h3{font-size:22px}
-.lead{font-size:17px;color:var(--mute);max-width:60ch;margin:0 0 28px}
-/* nav */
-nav{position:sticky;top:0;z-index:5;background:var(--pink);color:#fff;border-bottom:2px solid var(--plum)}
-nav .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding:10px max(5vw,16px)}
-.logo{font-family:"Black Han Sans";font-size:22px;text-decoration:none;margin-right:auto}
-nav a.l{text-decoration:none;font-weight:500;padding:10px 4px}
-nav a.l:hover{text-decoration:underline}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;border:2px solid var(--plum);font:700 16px "IBM Plex Sans KR";text-decoration:none;cursor:pointer;background:var(--yel);color:#1b1030;box-shadow:3px 3px 0 var(--plum);transition:transform .15s}
-.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--plum)}
-.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,.chip input:focus-visible+span{outline:3px solid var(--disc);outline-offset:2px}
-.btn.d{background:var(--disc);color:#fff}
-.btn.g{background:var(--card);color:var(--ink)}
-/* hero */
-.hero{background:var(--pink);color:#fff;padding-top:clamp(28px,4vw,56px);padding-bottom:0}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:end}
-.hero p{font-size:17px;max-width:46ch;margin:18px 0 24px;color:#fff}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
-.tags span{background:#fff;color:#1b1030;border:2px solid var(--plum);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:500}
-.hero .txt{padding-bottom:48px}
-.fig{position:relative;min-height:400px}.fig>svg{position:absolute;inset:0;width:100%;height:100%}
-.float{animation:fl 5s ease-in-out infinite}
-@keyframes fl{50%{transform:translateY(-8px)}}
-@media(prefers-reduced-motion:reduce){.float{animation:none}html{scroll-behavior:auto}}
-/* services */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:18px}
-.card{background:var(--card);border:2px solid var(--plum);border-radius:18px;padding:22px;box-shadow:5px 5px 0 var(--pinkd);display:flex;flex-direction:column;gap:10px}
-:root[data-theme=dark] .card,.card{border-color:light-dark(#1b1030,#5a3d6e)}
-.card p{margin:0;color:var(--mute)}
-.card ul{margin:0;padding-left:18px;color:var(--mute);font-size:15px}
-.ico{width:48px;height:48px}
-.price{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;gap:8px;font-size:15px}
-.price b{white-space:nowrap}
-.note{font-size:13px;color:var(--mute);margin-top:14px}
-/* steps */
-.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;counter-reset:s;list-style:none;padding:0;margin:0}
-.steps li{border-top:4px solid var(--pink);padding-top:14px}
-.steps li::before{counter-increment:s;content:"STEP " counter(s);font:700 13px "IBM Plex Sans KR";color:var(--pinkd)}
-.steps h3{margin:4px 0 6px}.steps p{margin:0;color:var(--mute);font-size:15px}
-/* works */
-.alt{background:var(--plum);color:#f8eefc}
-.alt .lead{color:#c9b6d9}
-.works{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.work{border-radius:16px;overflow:hidden;background:#2a1838;border:1px solid #47305a;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer;display:block;width:100%}
-.work:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
-.thumb{position:relative;aspect-ratio:16/10;background:#3a2647;overflow:hidden}
-.thumb img,.thumb video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
-.work:hover .thumb img,.work:hover .thumb video{transform:scale(1.04)}
-.badge{position:absolute;left:10px;top:10px;background:var(--yel);color:#1b1030;border:2px solid #1b1030;border-radius:999px;padding:1px 10px;font-size:13px;font-weight:700}
-.cnt{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;border-radius:8px;padding:1px 8px;font-size:13px}
-.work .meta{padding:12px 16px 16px}.work b{display:block}.work .meta span{font-size:14px;color:#c9b6d9}
-.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 20px}
-.filters button{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid #47305a;background:transparent;color:#f8eefc;font:500 15px "IBM Plex Sans KR";cursor:pointer}
-.filters button[aria-pressed=true]{background:var(--yel);color:#1b1030;border-color:var(--yel)}
-.empty{border:2px dashed #47305a;border-radius:16px;padding:40px 20px;text-align:center;color:#c9b6d9;grid-column:1/-1}
-dialog{border:0;padding:0;border-radius:18px;max-width:min(980px,94vw);width:100%;background:#1e1226;color:#f8eefc}
-dialog::backdrop{background:rgba(10,4,16,.8)}
-.dlg-hd{display:flex;justify-content:space-between;align-items:start;gap:12px;padding:18px 20px 8px}
-.dlg-hd button{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:#3a2647;color:#fff;font-size:22px;cursor:pointer}
-.dlg-bd{padding:0 20px 22px;display:grid;gap:14px}
-.dlg-bd p{margin:0;color:#c9b6d9;white-space:pre-wrap}
-.media img,.media video{width:100%;border-radius:12px;display:block;background:#000}
-.media .emb{position:relative;aspect-ratio:16/9}.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px}
-/* form */
-.formwrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
-form{background:var(--card);border:2px solid light-dark(#1b1030,#5a3d6e);border-radius:20px;padding:clamp(18px,3vw,30px);display:grid;gap:18px}
-label,legend{font-weight:700;font-size:15px;display:block;margin-bottom:6px}
-.req{color:var(--pinkd)}
-input,select,textarea{width:100%;font:16px "IBM Plex Sans KR";color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:11px 14px;min-height:46px}
-textarea{min-height:120px;resize:vertical}
-fieldset{border:0;padding:0;margin:0}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-block;margin:0;font-weight:400;position:relative}
-.chip input{position:absolute;opacity:0;width:1px;height:1px}
-.chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:2px solid var(--line);cursor:pointer;font-size:15px}
-.chip input:checked+span{background:var(--pink);border-color:var(--pink);color:#fff}
-.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
-.err{color:var(--pinkd);font-size:14px;margin:0;min-height:1em}
-.preview{position:sticky;top:88px;background:#2b2d31;color:#dbdee1;border-radius:16px;padding:18px;border:2px solid var(--plum)}
-.preview .hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.av{width:40px;height:40px;border-radius:50%;background:var(--pink);flex:none;display:grid;place-items:center;font-family:"Black Han Sans";color:#fff}
-.preview pre{white-space:pre-wrap;word-break:break-word;font:14px/1.6 "IBM Plex Sans KR";margin:0 0 16px;background:#1e1f22;border-radius:10px;padding:14px;max-height:420px;overflow:auto}
-.preview .row{display:flex;flex-wrap:wrap;gap:10px}
-.toast{font-size:14px;color:#8bf0b0;min-height:1.4em;margin-top:10px}
-/* faq */
-details{border-bottom:1px solid var(--line);padding:4px 0}
-summary{cursor:pointer;font-weight:700;padding:14px 0;min-height:44px;list-style-position:outside}
-details p{margin:0 0 16px;color:var(--mute)}
-/* footer */
-footer{background:var(--disc);color:#fff}
-footer .wrap{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
-footer h2{color:#fff}
-footer p{margin:6px 0 0}
-.id{font-weight:700;background:#fff;color:#1b1030;border-radius:8px;padding:2px 8px;white-space:nowrap}
-.small{font-size:13px;opacity:.85;width:100%;margin:0}
-@media(max-width:900px){.formwrap{grid-template-columns:minmax(0,1fr)}.preview{position:static}.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.works{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hero .txt{padding-bottom:0}.fig{min-height:300px}.steps,.works,.two{grid-template-columns:minmax(0,1fr)}nav a.l{display:none}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<nav><div class="wrap">
-  <a class="logo" href="#top">리예 공방</a>
-  <a class="l" href="#services">작업 종류</a>
-  <a class="l" href="#process">진행 방식</a>
-  <a class="l" href="#works">작업물</a>
-  <a class="l" href="#faq">FAQ</a>
-  <a class="btn d discord-link" href="https://discord.com/app">디스코드 문의</a>
-</div></nav>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
 
-<header class="band hero" id="top"><div class="wrap">
-  <div class="txt">
-    <h1>방송 화면 속<br>세계를 만들어 드려요</h1>
-    <p>VTuber 방송 배경, VRChat 월드, 3D 소품과 방송용 영상까지. 버츄얼·3D 스트리머를 위한 외주를 받는 1인 스튜디오 리예 RIYE입니다. 문의와 진행은 모두 디스코드에서 해요.</p>
-    <div class="tags"><span>VRChat 월드</span><span>VTuber 배경</span><span>3D 모델링</span><span>방송 영상</span></div>
-    <div class="row" style="display:flex;flex-wrap:wrap;gap:12px">
-      <a class="btn" href="#request">의뢰서 작성하기</a>
-      <a class="btn g" href="#works">작업물 보기</a>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="RIYE STUDIO 처음으로">
+      <img src="assets/logo.svg" alt="" width="34" height="34">
+      <span>RIYE STUDIO</span>
+    </a>
+    <nav class="menu" id="menu" aria-label="주요 메뉴">
+      <a href="#works" data-nav>작업물</a>
+      <a href="#services" data-nav>서비스</a>
+      <a href="#process" data-nav>진행 방식</a>
+      <a href="#request" data-nav>의뢰하기</a>
+      <a href="#faq" data-nav>FAQ</a>
+      <a class="btn btn-accent menu-cta discord-link" href="https://discord.com/app">디스코드 문의</a>
+    </nav>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="메뉴 열기"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top" aria-labelledby="heroTitle">
+  <div class="hero-bg" data-speed="0.35" aria-hidden="true"><div class="hero-img" id="heroImg"></div></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+  <div class="hero-in">
+    <p class="eyebrow-line hero-kicker"><span class="ln"><span>3D · VRChat · VTuber · Video</span></span></p>
+    <h1 class="hero-title" id="heroTitle" data-speed="-0.12">
+      <span class="ln"><span>RIYE</span></span>
+      <span class="ln"><span>STUDIO<em class="dot">.</em></span></span>
+    </h1>
+    <div class="hero-foot">
+      <p class="hero-lead"><span class="ln"><span>방송 화면 속 세계를 만드는 3D 스튜디오, 리예 공방.</span></span><span class="ln"><span>VTuber 방송 배경 · VRChat 월드 · 3D 모델링 · 방송 영상</span></span></p>
+      <div class="hero-cta">
+        <a class="btn btn-light" href="#works">작업물 보기</a>
+        <a class="btn btn-ghost" href="#request">외주 의뢰하기</a>
+      </div>
+    </div>
+    <div class="hero-stack" id="heroStack" aria-label="최근 작업물"></div>
+  </div>
+  <a class="scroll-cue" href="#works" aria-label="아래로 스크롤"><span></span></a>
+</section>
+
+<section class="sec works" id="works" aria-labelledby="worksTitle">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal>Selected Works</p>
+      <h2 class="h-xl" id="worksTitle" data-reveal><span class="ln"><span>작업물</span></span></h2>
+      <p class="lead" data-reveal>실제로 만든 3D 배경, 월드, 모델링 작업이에요. 카드를 누르면 전체 이미지와 작업 정보를 볼 수 있어요. 더 많은 작업과 영상은 디스코드 #포트폴리오 채널에 있어요.</p>
+    </div>
+    <div class="filters" id="flt" role="toolbar" aria-label="작업물 분류"></div>
+    <div class="grid" id="wk" aria-live="polite"><div class="empty">작업물을 불러오는 중이에요…</div></div>
+  </div>
+</section>
+
+<section class="services" id="services" aria-labelledby="svcTitle">
+  <div class="svc-pin" id="svcPin">
+    <div class="svc-stage wrap">
+      <div class="svc-side">
+        <p class="eyebrow" data-reveal>Services</p>
+        <h2 class="h-xl" id="svcTitle" data-reveal><span class="ln"><span>이런 작업을</span></span><span class="ln"><span>받아요</span></span></h2>
+        <p class="lead" data-reveal>방송에 바로 쓸 수 있는 형태로 납품해요. 쓰시는 프로그램(Warudo, VSeeFace, VRChat SDK 등)을 알려주시면 거기에 맞춰 세팅까지 도와드려요.</p>
+        <div class="svc-count" aria-hidden="true"><span id="svcNow">01</span><i></i><span id="svcAll">05</span></div>
+      </div>
+      <ol class="svc-list" id="svc"></ol>
     </div>
   </div>
-  <div class="fig" aria-label="떠 있는 VR 월드 섬과 포털, 방송 채팅이 있는 장면">
-    <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMax meet">
-      <defs>
-        <linearGradient id="portal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cf3ff"/><stop offset="1" stop-color="#5865f2"/></linearGradient>
-        <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-        <linearGradient id="top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#ffc21a"/></linearGradient>
-      </defs>
-      <polygon points="150,0 200,0 290,300 120,300" fill="url(#beam)"/>
-      <polygon points="420,0 460,0 470,300 330,300" fill="url(#beam)"/>
-      <g class="float">
-        <ellipse cx="300" cy="392" rx="190" ry="16" fill="#1b1030" opacity=".25"/>
-        <!-- island -->
-        <polygon points="300,220 520,300 300,380 80,300" fill="url(#top)" stroke="#1b1030" stroke-width="3"/>
-        <polygon points="80,300 300,380 300,410 120,330" fill="#e0a400" stroke="#1b1030" stroke-width="3"/>
-        <polygon points="520,300 300,380 300,410 480,330" fill="#b88600" stroke="#1b1030" stroke-width="3"/>
-        <g stroke="#1b1030" stroke-width="1.5" opacity=".35"><line x1="190" y1="260" x2="410" y2="340"/><line x1="410" y1="260" x2="190" y2="340"/></g>
-        <!-- portal -->
-        <ellipse cx="390" cy="278" rx="62" ry="14" fill="#1b1030" opacity=".3"/>
-        <rect x="336" y="130" width="108" height="150" rx="54" fill="url(#portal)" stroke="#1b1030" stroke-width="4"/>
-        <rect x="352" y="146" width="76" height="124" rx="38" fill="none" stroke="#fff" stroke-width="2" opacity=".7"/>
-        <!-- avatar (original simple figure) -->
-        <ellipse cx="230" cy="300" rx="34" ry="8" fill="#1b1030" opacity=".3"/>
-        <path d="M206 300 q0-58 24-58 q24 0 24 58z" fill="#fff" stroke="#1b1030" stroke-width="3"/>
-        <circle cx="230" cy="220" r="28" fill="#fff" stroke="#1b1030" stroke-width="3"/>
-        <path d="M204 212 q26-34 52 0 q-6-28-26-28 q-20 0-26 28z" fill="#1b1030"/>
-        <polygon points="207,198 196,170 220,190" fill="#1b1030"/><polygon points="253,198 264,170 240,190" fill="#1b1030"/>
-        <circle cx="221" cy="224" r="3.5" fill="#1b1030"/><circle cx="239" cy="224" r="3.5" fill="#1b1030"/>
-        <path d="M224 234 q6 5 12 0" stroke="#1b1030" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-        <!-- cubes -->
-        <g stroke="#1b1030" stroke-width="2.5">
-          <polygon points="130,280 150,272 170,280 150,288" fill="#fff"/><polygon points="130,280 150,288 150,308 130,300" fill="#ffd0df"/><polygon points="170,280 150,288 150,308 170,300" fill="#ff8fb3"/>
-          <polygon points="460,300 474,294 488,300 474,306" fill="#fff"/><polygon points="460,300 474,306 474,320 460,314" fill="#c9f8ff"/><polygon points="488,300 474,306 474,320 488,314" fill="#7cf3ff"/>
-        </g>
-      </g>
-      <!-- chat bubbles -->
-      <g font-family="IBM Plex Sans KR" font-size="15" font-weight="700">
-        <rect x="18" y="40" width="168" height="40" rx="20" fill="#fff" stroke="#1b1030" stroke-width="3"/>
-        <text x="38" y="66" fill="#1b1030">배경 미쳤다 ㄷㄷ</text>
-        <rect x="430" y="56" width="150" height="40" rx="20" fill="#1b1030"/>
-        <text x="452" y="82" fill="#ffd23f">월드 입장 ▶</text>
-        <rect x="40" y="104" width="122" height="34" rx="17" fill="#5865f2" stroke="#1b1030" stroke-width="3"/>
-        <text x="58" y="127" fill="#fff" font-size="14">LIVE · 1.2k</text>
-      </g>
-    </svg>
+  <p class="wrap note svc-note">가격은 샘플이에요. 실제 금액은 작업 범위를 보고 디스코드에서 견적을 드려요.</p>
+</section>
+
+<section class="sec process" id="process" aria-labelledby="procTitle">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal>Process</p>
+      <h2 class="h-xl" id="procTitle" data-reveal><span class="ln"><span>진행은 이렇게 돼요</span></span></h2>
+      <p class="lead" data-reveal>처음부터 끝까지 디스코드 한 곳에서 대화하면서 진행해요. 중간 결과를 계속 보여드리니까 방향이 틀어질 걱정이 없어요.</p>
+    </div>
+    <div class="track" aria-hidden="true"><i id="trackBar"></i></div>
+    <ol class="steps">
+      <li data-reveal><span class="step-n" aria-hidden="true">01</span><h3>의뢰서 보내기</h3><p>아래 의뢰서를 채워서 보내주세요. 리예 공방 디스코드로 바로 접수되고, 적어주신 디스코드 아이디로 연락드려요.</p></li>
+      <li data-reveal><span class="step-n" aria-hidden="true">02</span><h3>견적·일정 확정</h3><p>작업 범위, 금액, 마감일, 수정 횟수를 정리해서 확정해요. 착수금 입금 후 시작해요.</p></li>
+      <li data-reveal><span class="step-n" aria-hidden="true">03</span><h3>중간 공유</h3><p>러프 → 블록아웃 → 디테일 순서로 스크린샷과 영상으로 공유하고 피드백을 받아요.</p></li>
+      <li data-reveal><span class="step-n" aria-hidden="true">04</span><h3>납품·세팅</h3><p>원본과 방송용 파일을 전달하고, 필요하면 화면 공유로 세팅까지 함께해요.</p></li>
+    </ol>
   </div>
-</div></header>
+</section>
 
-<section class="band" id="services"><div class="wrap">
-  <h2>이런 작업을 받아요</h2>
-  <p class="lead">방송에 바로 쓸 수 있는 형태로 납품해요. 쓰시는 프로그램(Warudo, VSeeFace, VRChat SDK 등)을 알려주시면 거기에 맞춰 세팅까지 도와드려요.</p>
-  <div class="grid" id="svc"></div>
-  <p class="note">가격은 샘플이에요. 실제 금액은 작업 범위를 보고 디스코드에서 견적을 드려요.</p>
-</div></section>
+<section class="sec request" id="request" aria-labelledby="reqTitle">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal>Request</p>
+      <h2 class="h-xl" id="reqTitle" data-reveal><span class="ln"><span>외주 의뢰서</span></span></h2>
+      <p class="lead" data-reveal>작성하고 보내기를 누르면 리예 공방 디스코드 #의뢰-접수 채널로 바로 들어가요. 답장은 적어주신 디스코드 아이디로 친구 요청이나 DM을 드려요. 쓰는 동안 내용은 이 브라우저에 자동 저장돼요.</p>
+    </div>
+    <div class="formwrap">
+      <form id="f" novalidate>
+        <div class="two">
+          <div class="field"><label for="nick">활동명 <span class="req" aria-hidden="true">*</span></label><input id="nick" placeholder="예: 별빛 하루" autocomplete="nickname" required></div>
+          <div class="field"><label for="dc">디스코드 아이디 <span class="req" aria-hidden="true">*</span></label><input id="dc" placeholder="예: haru_live" autocomplete="off" required></div>
+        </div>
+        <fieldset class="field"><legend>작업 종류 <span class="req" aria-hidden="true">*</span> <span class="hint-in">여러 개 선택 가능</span></legend><div class="chips" id="types"></div></fieldset>
+        <div class="field"><label for="link">채널 링크</label><input id="link" placeholder="유튜브·치지직·트위치 채널 주소" inputmode="url" autocomplete="url"></div>
+        <div class="two">
+          <div class="field"><label for="budget">예산</label><select id="budget"><option value="">선택 안 함</option><option>10만 원 이하</option><option>10~30만 원</option><option>30~60만 원</option><option>60~100만 원</option><option>100만 원 이상</option><option>견적 받아보고 결정</option></select></div>
+          <div class="field"><label for="due">희망 마감일</label><input id="due" type="date"></div>
+        </div>
+        <div class="field"><label for="use">사용 용도</label><select id="use"><option>개인 방송용</option><option>상업용 (굿즈·광고·판매 포함)</option><option>VRChat 월드 공개 업로드</option><option>아직 모르겠어요</option></select></div>
+        <div class="field"><label for="ref">레퍼런스 링크</label><textarea id="ref" rows="3" placeholder="참고 이미지, 영상, 월드 링크를 줄마다 하나씩"></textarea></div>
+        <div class="field"><label for="desc">원하는 내용 <span class="req" aria-hidden="true">*</span></label><textarea id="desc" rows="6" placeholder="분위기, 색감, 꼭 들어가야 할 요소, 방송 콘셉트 등을 자유롭게 적어주세요" required></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="hp">비워두세요</label><input id="hp" tabindex="-1" autocomplete="off"></div>
+        <label class="agree"><input type="checkbox" id="agree"> <span>디스코드 아이디로 연락받는 데 동의해요.</span></label>
+        <p class="err" id="err" role="alert"></p>
+        <div class="form-actions">
+          <button class="btn btn-accent" type="submit" id="send">의뢰서 보내기</button>
+          <button class="btn btn-ghost" type="button" id="clearBtn">초기화</button>
+          <span class="saved" id="saved" aria-live="polite"></span>
+        </div>
+      </form>
+      <aside class="preview" aria-label="접수 내용 미리보기">
+        <div class="pv-hd"><img src="assets/logo.svg" alt="" width="40" height="40"><div><b>#의뢰-접수</b><span>리예 공방 🔨 디스코드 · 미리보기</span></div></div>
+        <pre id="out">의뢰서를 작성하면 여기에서 접수될 내용을 미리 볼 수 있어요.</pre>
+        <div class="pv-act">
+          <button class="btn btn-ghost" type="button" id="copy">내용 복사</button>
+          <a class="btn btn-discord discord-link" href="https://discord.com/app">디스코드 열기</a>
+        </div>
+        <p class="toast" id="toast" role="status" aria-live="polite"></p>
+      </aside>
+    </div>
+  </div>
+</section>
 
-<section class="band" id="process" style="padding-top:0"><div class="wrap">
-  <h2>진행은 이렇게 돼요</h2>
-  <p class="lead">처음부터 끝까지 디스코드 한 곳에서 대화하면서 진행해요. 중간 결과를 계속 보여드리니까 방향이 틀어질 걱정이 없어요.</p>
-  <ol class="steps">
-    <li><h3>의뢰서 보내기</h3><p>아래 의뢰서를 채워서 보내주세요. 리예 공방 디스코드로 바로 접수되고, 적어주신 디스코드 아이디로 연락드려요.</p></li>
-    <li><h3>견적·일정 확정</h3><p>작업 범위, 금액, 마감일, 수정 횟수를 정리해서 확정해요. 착수금 입금 후 시작해요.</p></li>
-    <li><h3>중간 공유</h3><p>러프 → 블록아웃 → 디테일 순서로 스크린샷과 영상으로 공유하고 피드백을 받아요.</p></li>
-    <li><h3>납품·세팅</h3><p>원본과 방송용 파일을 전달하고, 필요하면 화면 공유로 세팅까지 함께해요.</p></li>
-  </ol>
-</div></section>
+<section class="sec faq" id="faq" aria-labelledby="faqTitle">
+  <div class="wrap faq-in">
+    <div class="sec-head">
+      <p class="eyebrow" data-reveal>FAQ</p>
+      <h2 class="h-xl" id="faqTitle" data-reveal><span class="ln"><span>자주 묻는 질문</span></span></h2>
+    </div>
+    <div id="fq" class="fq"></div>
+  </div>
+</section>
 
-<section class="band alt" id="works"><div class="wrap">
-  <h2>작업물</h2>
-  <p class="lead">최근 작업 일부예요. 더 많은 작업물과 영상은 디스코드 포트폴리오 채널에서 볼 수 있어요.</p>
-  <div class="filters" id="flt"></div>
-  <div class="works" id="wk"><div class="empty">작업물을 불러오는 중이에요…</div></div>
-</div></section>
-<dialog id="dlg" aria-labelledby="dlgT"><div class="dlg-hd"><div><h3 id="dlgT"></h3><span id="dlgS" style="font-size:14px;color:#c9b6d9"></span></div><button type="button" id="dlgX" aria-label="닫기">×</button></div><div class="dlg-bd" id="dlgB"></div></dialog>
+</main>
 
-<section class="band" id="request"><div class="wrap">
-  <h2>의뢰서</h2>
-  <p class="lead">작성하고 보내기를 누르면 리예 공방 디스코드 #의뢰-접수 채널로 바로 들어가요. 답장은 적어주신 디스코드 아이디로 친구 요청이나 DM을 드려요.</p>
-  <div class="formwrap">
-    <form id="f" novalidate>
-      <div class="two">
-        <div><label for="nick">활동명 <span class="req">*</span></label><input id="nick" placeholder="예: 별빛 하루" autocomplete="nickname"></div>
-        <div><label for="dc">디스코드 아이디 <span class="req">*</span></label><input id="dc" placeholder="예: haru_live"></div>
+<footer class="foot" aria-labelledby="footTitle">
+  <div class="wrap">
+    <p class="eyebrow">Let's build your world</p>
+    <h2 class="foot-title" id="footTitle" data-reveal><span class="ln"><span>함께 만들 세계가</span></span><span class="ln"><span>있나요?</span></span></h2>
+    <div class="foot-row">
+      <p>문의, 견적, 작업 공유, 납품 모두 리예 공방 🔨 디스코드에서 해요. DM은 <span class="id">Riye97</span></p>
+      <div class="foot-act">
+        <a class="btn btn-accent discord-link" href="https://discord.com/app">서버 참여하기</a>
+        <button class="btn btn-ghost" type="button" id="copyId">아이디 복사</button>
       </div>
-      <fieldset><legend>작업 종류 <span class="req">*</span> <span style="font-weight:400;color:var(--mute)">(여러 개 선택 가능)</span></legend><div class="chips" id="types"></div></fieldset>
-      <div><label for="link">채널 링크</label><input id="link" placeholder="유튜브·치지직·트위치 채널 주소" inputmode="url"></div>
-      <div class="two">
-        <div><label for="budget">예산</label><select id="budget"><option value="">선택 안 함</option><option>10만 원 이하</option><option>10~30만 원</option><option>30~60만 원</option><option>60~100만 원</option><option>100만 원 이상</option><option>견적 받아보고 결정</option></select></div>
-        <div><label for="due">희망 마감일</label><input id="due" type="date"></div>
-      </div>
-      <div><label for="use">사용 용도</label><select id="use"><option>개인 방송용</option><option>상업용 (굿즈·광고·판매 포함)</option><option>VRChat 월드 공개 업로드</option><option>아직 모르겠어요</option></select></div>
-      <div><label for="ref">레퍼런스 링크</label><textarea id="ref" style="min-height:80px" placeholder="참고 이미지, 영상, 월드 링크를 줄마다 하나씩"></textarea></div>
-      <div><label for="desc">원하는 내용 <span class="req">*</span></label><textarea id="desc" placeholder="분위기, 색감, 꼭 들어가야 할 요소, 방송 콘셉트 등을 자유롭게 적어주세요"></textarea></div>
-      <div style="position:absolute;left:-9999px" aria-hidden="true"><label for="hp">비워두세요</label><input id="hp" tabindex="-1" autocomplete="off"></div>
-      <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:15px"><input type="checkbox" id="agree" style="width:22px;min-height:22px;margin-top:2px;flex:none"> 디스코드 아이디로 연락받는 데 동의해요.</label>
-      <p class="err" id="err" role="alert"></p>
-      <div style="display:flex;flex-wrap:wrap;gap:12px"><button class="btn" type="submit" id="send">의뢰서 보내기</button><button class="btn g" type="button" id="clearBtn">초기화</button></div>
-    </form>
-    <aside class="preview" aria-live="polite">
-      <div class="hd"><div class="av">리</div><div><b style="color:#fff">#의뢰-접수</b><div style="font-size:13px;color:#949ba4">리예 공방 🔨 디스코드</div></div></div>
-      <pre id="out">의뢰서를 작성하면 여기에서 접수될 내용을 미리 볼 수 있어요.</pre>
-      <div class="row">
-        <button class="btn g" type="button" id="copy">내용 복사</button>
-        <a class="btn d discord-link" href="https://discord.com/app">디스코드 열기</a>
-      </div>
-      <div class="toast" id="toast"></div>
-    </aside>
+    </div>
+    <div class="foot-base"><span>© RIYE STUDIO · 리예 공방</span><span>사진 · 영상 · 3D</span></div>
   </div>
-</div></section>
+</footer>
 
-<section class="band" id="faq" style="padding-top:0"><div class="wrap" style="max-width:860px;margin-left:max(0px,calc((100% - 1240px)/2))">
-  <h2>자주 묻는 질문</h2>
-  <div id="fq"></div>
-</div></section>
-
-<footer class="band"><div class="wrap">
-  <div>
-    <h2>리예 공방 🔨 디스코드</h2>
-    <p>문의, 견적, 작업 공유, 납품 모두 여기서 해요. DM은 <span class="id">Riye97</span></p>
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="vTitle" hidden>
+  <div class="v-bar">
+    <div class="v-meta"><span id="vCat"></span><h3 id="vTitle"></h3></div>
+    <div class="v-nav">
+      <button type="button" id="vPrev" aria-label="이전 작업물">←</button>
+      <span id="vPos" aria-live="polite"></span>
+      <button type="button" id="vNext" aria-label="다음 작업물">→</button>
+      <button type="button" id="vClose" class="v-close" aria-label="닫기">×</button>
+    </div>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:12px">
-    <a class="btn discord-link" href="https://discord.com/app">서버 참여하기</a>
-    <button class="btn g" type="button" id="copyId">아이디 복사</button>
-  </div>
-  <p class="small">© 리예 RIYE · 사진 · 영상 · 3D</p>
-</div></footer>
+  <div class="v-body" id="vBody" tabindex="-1"></div>
+</div>
 
 <script src="config.js"></script>
-<script>
-{
-// 디스코드 서버 초대 링크를 여기에 넣으면 모든 디스코드 버튼이 서버로 연결돼요
-const DISCORD_INVITE = 'https://discord.gg/KXGEWYkwNN';
-const DISCORD_ID = 'Riye97';
-const WEBHOOK = (window.RIYE_CONFIG && window.RIYE_CONFIG.webhook) || '';
-
-const svc = [
-  {t:'VRChat 월드 제작',d:'방송·모임·팬미팅용 월드를 기획부터 업로드까지.',l:['Unity + VRChat SDK3','최적화(Quest 대응 옵션)','미러·비디오 플레이어·포토 스팟'],p:'샘플 50만 원~',c:'#7cf3ff'},
-  {t:'VTuber 방송 배경·무대',d:'3D 방, 무대, 노래방송 스테이지 같은 실시간 배경.',l:['Warudo·VSeeFace·Unity 씬','조명·카메라 앵글 프리셋','2D 배경 이미지 버전 제공'],p:'샘플 30만 원~',c:'#ffd23f'},
-  {t:'3D 소품·의상 모델링',d:'아바타에 붙일 소품, 액세서리, 의상, 굿즈 모델.',l:['Blender 모델링·텍스처','아바타 본에 맞춰 리깅','FBX / VRM / unitypackage'],p:'샘플 10만 원~',c:'#ff8fb3'},
-  {t:'방송용 영상',d:'오프닝 영상, 데뷔 PV, 쇼츠, MV 편집과 3D 연출.',l:['3D 카메라 워크·렌더','편집·자막·사운드 싱크','유튜브·쇼츠 규격 납품'],p:'샘플 20만 원~',c:'#8bf0b0'},
-  {t:'이건 뭐라고 하죠?',d:'목록에 없어도 3D·영상·사진이면 일단 물어보세요.',l:['아이디어 단계도 환영','범위부터 같이 정해요'],p:'상담 무료',c:'#ffffff'}
-];
-const types = ['VRChat 월드','방송 배경·무대','3D 소품·의상','방송용 영상','기타'];
-const faq = [
-  ['작업 기간은 얼마나 걸려요?','소품은 보통 1주, 배경·영상은 2~3주, 월드는 3~6주 정도예요. 급한 일정은 상담에서 가능한지 먼저 말씀드려요.'],
-  ['결제는 어떻게 해요?','견적 확정 후 착수금 50%, 납품 전 잔금 50%로 진행해요. 계좌이체와 세금계산서·현금영수증 발행이 가능해요.'],
-  ['수정은 몇 번 돼요?','기본 2회까지 무료예요. 확정된 범위를 벗어나는 큰 변경은 추가 견적이 나올 수 있어요.'],
-  ['저작권과 상업적 이용은요?','개인 방송 사용은 기본 포함이에요. 굿즈, 광고, 판매 같은 상업적 이용은 의뢰서에 체크해 주시면 그 범위로 계약해요. 작업물을 포트폴리오에 올리지 않길 원하시면 미리 말씀해 주세요.'],
-  ['기존 아바타나 모델을 수정해 줄 수 있나요?','라이선스상 수정이 허용된 모델이면 가능해요. 구매처와 이용 약관을 함께 보내주세요.'],
-  ['디스코드가 없으면요?','무료로 가입할 수 있어요. 가입이 어려우시면 의뢰서 메시지를 복사해서 아이디 Riye97로 보내주시면 돼요.']
-];
-
-const icon = c => `<svg class="ico" viewBox="0 0 48 48"><polygon points="24,6 42,15 24,24 6,15" fill="#fff" stroke="#1b1030" stroke-width="2.5"/><polygon points="6,15 24,24 24,42 6,33" fill="${c}" stroke="#1b1030" stroke-width="2.5"/><polygon points="42,15 24,24 24,42 42,33" fill="${c}" opacity=".6" stroke="#1b1030" stroke-width="2.5"/></svg>`;
-document.getElementById('svc').innerHTML = svc.map(s=>`<article class="card">${icon(s.c)}<h3>${s.t}</h3><p>${s.d}</p><ul>${s.l.map(x=>`<li>${x}</li>`).join('')}</ul><div class="price"><span>시작가</span><b>${s.p}</b></div></article>`).join('');
-document.getElementById('types').innerHTML = types.map((t,i)=>`<label class="chip"><input type="checkbox" id="t${i}" value="${t}"><span>${t}</span></label>`).join('');
-// ---- 포트폴리오: works.json (admin.html에서 등록) ----
-const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ytId = u => (u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/))([\w-]{11})/)||[])[1];
-const vmId = u => (u.match(/vimeo\.com\/(?:video\/)?(\d+)/)||[])[1];
-const thumbOf = w => {
-  if (w.thumb) return `<img src="${esc(w.thumb)}" alt="" loading="lazy">`;
-  for (const m of w.media||[]) {
-    if (m.type==='image') return `<img src="${esc(m.src)}" alt="" loading="lazy">`;
-    if (m.type==='link' && ytId(m.src)) return `<img src="https://img.youtube.com/vi/${ytId(m.src)}/hqdefault.jpg" alt="" loading="lazy">`;
-    if (m.type==='video') return `<video src="${esc(m.src)}#t=0.5" muted preload="metadata" playsinline></video>`;
-  }
-  return '';
-};
-const mediaHTML = m => {
-  if (m.type==='image') return `<div class="media"><img src="${esc(m.src)}" alt="" loading="lazy"></div>`;
-  if (m.type==='video') return `<div class="media"><video src="${esc(m.src)}" controls playsinline preload="metadata"></video></div>`;
-  const y=ytId(m.src), v=vmId(m.src);
-  if (y) return `<div class="media emb"><iframe src="https://www.youtube.com/embed/${y}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="영상"></iframe></div>`;
-  if (v) return `<div class="media emb"><iframe src="https://player.vimeo.com/video/${v}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy" title="영상"></iframe></div>`;
-  return `<p><a href="${esc(m.src)}" target="_blank" rel="noopener">영상 보러 가기 ↗</a></p>`;
-};
-const CATS = ['VRChat 월드','방송 배경·무대','3D 모델링','방송용 영상','사진','기타'];
-let works = [], cat = '전체';
-const wk = document.getElementById('wk'), flt = document.getElementById('flt'), dlg = document.getElementById('dlg');
-const renderWorks = () => {
-  const cats = ['전체', ...CATS, ...[...new Set(works.map(w=>w.category).filter(Boolean))].filter(c=>!CATS.includes(c))];
-  const n = c => c==='전체' ? works.length : works.filter(w=>w.category===c).length;
-  flt.innerHTML = cats.map(c=>`<button type="button" aria-pressed="${c===cat}" data-c="${esc(c)}">${esc(c)} <span style="opacity:.7">${n(c)}</span></button>`).join('');
-  const list = works.filter(w=>cat==='전체'||w.category===cat);
-  wk.innerHTML = list.length ? list.map(w=>`<button type="button" class="work" data-id="${esc(w.id)}"><div class="thumb">${thumbOf(w)}<span class="badge">${w.kind==='photo'?'사진':'영상'}</span>${(w.media||[]).length>1?`<span class="cnt">+${w.media.length}</span>`:''}</div><div class="meta"><b>${esc(w.title)}</b><span>${esc([w.category,w.date].filter(Boolean).join(' · '))}</span></div></button>`).join('')
-    : `<div class="empty">${cat==='전체'?'작업물을 준비하고 있어요. 디스코드 포트폴리오 채널에서 먼저 볼 수 있어요.':'이 분류에는 아직 작업물이 없어요.'}</div>`;
-};
-flt.addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; cat=b.dataset.c; renderWorks(); });
-wk.addEventListener('click', e=>{
-  const b=e.target.closest('.work'); if(!b) return;
-  const w=works.find(x=>x.id===b.dataset.id); if(!w) return;
-  document.getElementById('dlgT').textContent=w.title;
-  document.getElementById('dlgS').textContent=[w.category,w.date].filter(Boolean).join(' · ');
-  document.getElementById('dlgB').innerHTML=(w.desc?`<p>${esc(w.desc)}</p>`:'')+(w.media||[]).map(mediaHTML).join('');
-  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open','');
-});
-const closeDlg = () => { document.getElementById('dlgB').innerHTML=''; dlg.close ? dlg.close() : dlg.removeAttribute('open'); };
-document.getElementById('dlgX').addEventListener('click', closeDlg);
-dlg.addEventListener('click', e=>{ if(e.target===dlg) closeDlg(); });
-dlg.addEventListener('close', ()=>{ document.getElementById('dlgB').innerHTML=''; });
-fetch('works.json?v='+Date.now()).then(r=>r.ok?r.json():[]).then(d=>{ works=Array.isArray(d)?d:[]; renderWorks(); }).catch(()=>{ works=[]; renderWorks(); });
-document.getElementById('fq').innerHTML = faq.map(([q,a])=>`<details><summary>${q}</summary><p>${a}</p></details>`).join('');
-
-if (DISCORD_INVITE) document.querySelectorAll('.discord-link').forEach(a=>a.href=DISCORD_INVITE);
-
-const $ = id => document.getElementById(id);
-const fields = ['nick','dc','link','budget','due','use','ref','desc'];
-const out = $('out'), toast = $('toast');
-let msg = '';
-
-const save = () => { try{ const d={}; fields.forEach(k=>d[k]=$(k).value); d.types=types.filter((_,i)=>$('t'+i).checked); localStorage.setItem('riye-req',JSON.stringify(d)); }catch(e){} };
-const load = () => { try{ const d=JSON.parse(localStorage.getItem('riye-req')||'null'); if(!d) return; fields.forEach(k=>{ if(d[k]!=null) $(k).value=d[k]; }); types.forEach((t,i)=>$('t'+i).checked=(d.types||[]).includes(t)); }catch(e){} };
-
-const build = () => {
-  const sel = types.filter((_,i)=>$('t'+i).checked);
-  const v = k => $(k).value.trim();
-  const lines = [
-    '📩 외주 의뢰서',
-    `활동명: ${v('nick')||'-'}`,
-    `디스코드: ${v('dc')||'-'}`,
-    `작업 종류: ${sel.join(', ')||'-'}`,
-    `채널: ${v('link')||'-'}`,
-    `예산: ${v('budget')||'선택 안 함'}`,
-    `희망 마감일: ${v('due')||'협의'}`,
-    `사용 용도: ${v('use')}`,
-    '',
-    '레퍼런스:',
-    v('ref')||'-',
-    '',
-    '원하는 내용:',
-    v('desc')||'-'
-  ];
-  return {sel, text: lines.join('\n')};
-};
-
-$('f').addEventListener('input', ()=>{ save(); const b=build(); msg=b.text; out.textContent=msg; });
-$('f').addEventListener('submit', e=>{
-  e.preventDefault();
-  const b = build(), miss = [];
-  if(!$('nick').value.trim()) miss.push('활동명');
-  if(!$('dc').value.trim()) miss.push('디스코드 아이디');
-  if(!b.sel.length) miss.push('작업 종류');
-  if(!$('desc').value.trim()) miss.push('원하는 내용');
-  if(!$('agree').checked) miss.push('연락 동의');
-  $('err').textContent = miss.length ? `${miss.join(', ')}을(를) 확인해 주세요.` : '';
-  msg = b.text; out.textContent = msg;
-  if(miss.length) return;
-  if($('hp').value) return;
-  if(!WEBHOOK){ toast.textContent = '지금은 자동 접수가 꺼져 있어요. 내용 복사 후 디스코드로 보내주세요.'; return; }
-  let last = 0; try{ last = +localStorage.getItem('riye-sent')||0 }catch(e){}
-  if(Date.now()-last < 60000){ toast.textContent = '방금 보내셨어요. 1분 뒤에 다시 보낼 수 있어요.'; return; }
-  const btn = $('send'); btn.disabled = true; btn.textContent = '보내는 중…';
-  const body = msg.length > 1900 ? msg.slice(0,1900)+'\n…(길어서 잘림)' : msg;
-  fetch(WEBHOOK, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({content: body, allowed_mentions:{parse:[]}})})
-    .then(r=>{ if(!r.ok) throw new Error(r.status);
-      try{ localStorage.setItem('riye-sent', Date.now()); localStorage.removeItem('riye-req'); }catch(e){}
-      toast.textContent = '접수됐어요! 확인하는 대로 디스코드로 연락드릴게요.';
-      $('f').reset(); types.forEach((_,i)=>$('t'+i).checked=false); })
-    .catch(()=>{ toast.textContent = '전송에 실패했어요. 내용 복사 후 디스코드 Riye97로 보내주세요.'; })
-    .finally(()=>{ btn.disabled = false; btn.textContent = '의뢰서 보내기'; });
-});
-$('clearBtn').addEventListener('click', ()=>{ $('f').reset(); types.forEach((_,i)=>$('t'+i).checked=false); try{localStorage.removeItem('riye-req')}catch(e){} msg=''; out.textContent='의뢰서를 작성하면 여기에 메시지가 만들어져요.'; $('err').textContent=''; toast.textContent=''; });
-
-const copy = async (text, ok) => {
-  try{ await navigator.clipboard.writeText(text); toast.textContent = ok; }
-  catch(e){ toast.textContent = '복사가 막혀 있어요. 메시지를 직접 드래그해서 복사해 주세요.'; const r=document.createRange(); r.selectNodeContents(out); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
-};
-$('copy').addEventListener('click', ()=>{ const t = msg || build().text; copy(t, '복사했어요! 디스코드에 붙여넣으면 끝이에요.'); });
-$('copyId').addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(DISCORD_ID); $('copyId').textContent='복사됨 ✓'; }catch(e){ $('copyId').textContent=DISCORD_ID; } });
-
-load(); msg = build().text; if(fields.some(k=>$(k).value) ) out.textContent = msg;
-}
-</script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>
