@@ -10,14 +10,10 @@ const DISCORD_ID = 'Riye97';
 const RELAY = CFG.relay || '';      // serverless relay (recommended)
 const WEBHOOK = CFG.webhook || '';  // legacy direct webhook (fallback)
 
-const svc = [
-  {t:'VRChat 월드 제작',cat:'VRChat 월드',d:'방송·모임·팬미팅용 월드를 기획부터 업로드까지.',l:['Unity + VRChat SDK3','최적화(Quest 대응 옵션)','미러·비디오 플레이어·포토 스팟'],p:'샘플 50만 원~'},
-  {t:'VTuber 방송 배경·무대',cat:'방송 배경·무대',d:'3D 방, 무대, 노래방송 스테이지 같은 실시간 배경.',l:['Warudo·VSeeFace·Unity 씬','조명·카메라 앵글 프리셋','2D 배경 이미지 버전 제공'],p:'샘플 30만 원~'},
-  {t:'3D 소품·의상 모델링',cat:'3D 모델링',d:'아바타에 붙일 소품, 액세서리, 의상, 굿즈 모델.',l:['Blender 모델링·텍스처','아바타 본에 맞춰 리깅','FBX / VRM / unitypackage'],p:'샘플 10만 원~'},
-  {t:'방송용 영상',cat:'방송용 영상',d:'오프닝 영상, 데뷔 PV, 쇼츠, MV 편집과 3D 연출.',l:['3D 카메라 워크·렌더','편집·자막·사운드 싱크','유튜브·쇼츠 규격 납품'],p:'샘플 20만 원~'},
-  {t:'이건 뭐라고 하죠?',cat:'기타',d:'목록에 없어도 3D·영상·사진이면 일단 물어보세요.',l:['아이디어 단계도 환영','범위부터 같이 정해요'],p:'상담 무료'}
-];
-const types = ['VRChat 월드','방송 배경·무대','3D 소품·의상','방송용 영상','기타'];
+const PR = window.RIYE_PRICING || {services: [], budgets: []};
+const won = n => n.toLocaleString('ko-KR') + '원';
+const svc = PR.services;
+const types = svc.map(x => x.type);
 const CATS = ['VRChat 월드','방송 배경·무대','3D 모델링','방송용 영상','사진','기타'];
 const faq = [
   ['작업 기간은 얼마나 걸려요?','소품은 보통 1주, 배경·영상은 2~3주, 월드는 3~6주 정도예요. 급한 일정은 상담에서 가능한지 먼저 말씀드려요.'],
@@ -134,12 +130,18 @@ const svcVisual = (s, i) => {
   const hue = ['#ff3d7f','#ffd23f','#7cf3ff','#b9a8ff','#8bf0b0'][i % 5];
   return `<figure class="svc-img" aria-hidden="true"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="#16161a"/><circle cx="300" cy="80" r="120" fill="${hue}" opacity=".18"/><g stroke="#f2f0ec" stroke-width="2" fill="none" opacity=".85"><polygon points="200,70 290,120 200,170 110,120"/><polyline points="110,120 110,210 200,260 290,210 290,120"/><line x1="200" y1="170" x2="200" y2="260"/></g><polygon points="200,70 290,120 200,170 110,120" fill="${hue}" opacity=".9"/></svg></figure>`;
 };
+const planHTML = pl => `<li class="plan"><div class="plan-h"><b>${esc(pl.name)}</b><span class="plan-p">${pl.from == null ? '맞춤 견적' : won(pl.from) + '부터'}</span></div><p>${esc(pl.scope)}<span class="plan-d">예상 기간 ${esc(pl.period)}</span></p></li>`;
 const renderSvc = () => {
-  svcList.innerHTML = svc.map((s, i) => `<li class="svc${i === 0 ? ' on' : ''}" data-i="${i}"><div class="svc-h"><span class="svc-n">${String(i+1).padStart(2,'0')}</span><h3>${s.t}</h3></div><div class="svc-body">${svcVisual(s, i)}<div class="svc-txt"><p>${s.d}</p><ul>${s.l.map(x => `<li>${x}</li>`).join('')}</ul><div class="svc-price"><span>시작가</span><b>${s.p}</b></div></div></div></li>`).join('');
+  svcList.innerHTML = svc.map((s, i) => `<li class="svc${i === 0 ? ' on' : ''}" data-i="${i}"><div class="svc-h"><span class="svc-n">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.title)}</h3></div><div class="svc-body">${svcVisual(s, i)}<div class="svc-txt"><p class="svc-d">${esc(s.desc)}</p><ul class="svc-f">${s.features.map(x => `<li>${esc(x)}</li>`).join('')}</ul><ul class="plans">${s.plans.map(planHTML).join('')}</ul><p class="svc-x"><b>기본 수정</b> 2회 무료${s.extra.length ? ` · <b>추가 비용</b> ${s.extra.map(esc).join(', ')}` : ''}</p><a class="tlink tlink-dark svc-cta" href="#request" data-type="${esc(s.type)}">이 작업 문의하기 <span aria-hidden="true">→</span></a></div></div></li>`).join('');
   $('svcAll').textContent = String(svc.length).padStart(2,'0');
   svcPin.style.setProperty('--n', svc.length);
   svcIdx = -1;
 };
+svcList.addEventListener('click', e => {
+  const a = e.target.closest('.svc-cta'); if (!a) return;
+  const i = types.indexOf(a.dataset.type);
+  if (i > -1 && !$('t' + i).checked) { $('t' + i).checked = true; form.dispatchEvent(new Event('input', {bubbles:true})); }
+});
 const setSvc = (i, p) => {
   $('svcPin').querySelector('.svc-count i').style.setProperty('--p', p.toFixed(3));
   if (i === svcIdx) return;
@@ -148,7 +150,7 @@ const setSvc = (i, p) => {
   $('svcNow').textContent = String(i + 1).padStart(2,'0');
 };
 const setPinMode = () => {
-  const on = mqWide.matches && motionOK() && innerHeight >= 620;
+  const on = mqWide.matches && motionOK() && innerHeight >= 820;
   document.body.classList.toggle('pinned', on);
   if (!on) svcList.querySelectorAll('.svc').forEach(el => { el.classList.add('on'); el.removeAttribute('aria-current'); });
   else svcIdx = -1;
@@ -276,11 +278,27 @@ vBody.addEventListener('touchend', e => {
 }, {passive:true});
 
 // ---------- FAQ ----------
+{ const n = document.querySelector('.svc-note'); if (n && PR.policy) n.innerHTML = `${esc(PR.policy)}${PR.vat === 'included' ? ' 표시 가격은 부가세 포함이에요.' : PR.vat === 'excluded' ? ' 표시 가격은 부가세 별도예요.' : ''}<br>${esc(PR.revisions || '')}`; }
 $('fq').innerHTML = faq.map(([q, a]) => `<details data-reveal><summary>${q}</summary><p>${a}</p></details>`).join('');
 observeReveal($('fq'));
 
 // ---------- request form ----------
 $('types').innerHTML = types.map((t, i) => `<label class="chip"><input type="checkbox" id="t${i}" value="${t}"><span>${t}</span></label>`).join('');
+if (PR.budgets && PR.budgets.length) $('budget').innerHTML = '<option value="">선택 안 함</option>' + PR.budgets.map(b => `<option>${esc(b)}</option>`).join('');
+// reference estimate from the pricing file (never shown as a final price)
+const minFrom = s => { const v = s.plans.map(p => p.from).filter(x => x != null); return v.length ? Math.min(...v) : null; };
+const estimate = sel => {
+  const picked = svc.filter(s => sel.includes(s.type));
+  const priced = picked.filter(s => minFrom(s) != null), custom = picked.filter(s => minFrom(s) == null);
+  const sum = priced.reduce((a, s) => a + minFrom(s), 0);
+  return {picked, priced, custom, sum};
+};
+const renderEst = () => {
+  const e = estimate(types.filter((_, i) => $('t' + i).checked)), box = $('est');
+  if (!e.picked.length) { box.hidden = true; box.innerHTML = ''; return; }
+  box.hidden = false;
+  box.innerHTML = `<p class="est-h">선택한 작업의 기준 가격</p><ul>${e.picked.map(s => `<li><span>${esc(s.title)}</span><b>${minFrom(s) == null ? '맞춤 견적' : won(minFrom(s)) + '부터'}</b></li>`).join('')}</ul>${e.priced.length > 1 || (e.priced.length && e.custom.length) ? `<p class="est-sum">참고 예상 견적 <b>${won(e.sum)}~${e.custom.length ? ' + 맞춤 견적' : ''}</b></p>` : ''}<p class="est-n">시작가 기준 참고용이에요. 확정 금액이 아니며, 범위를 확인한 뒤 견적을 드려요.</p>`;
+};
 const fields = ['nick','dc','link','budget','due','use','ref','desc'];
 const out = $('out'), toast = $('toast'), form = $('f');
 const PREVIEW_EMPTY = '의뢰서를 작성하면 여기에서 접수될 내용을 미리 볼 수 있어요.';
@@ -311,6 +329,7 @@ const build = () => {
     `작업 종류: ${sel.join(', ') || '-'}`,
     `채널: ${v('link') || '-'}`,
     `예산: ${v('budget') || '선택 안 함'}`,
+    ...(() => { const e = estimate(sel); return e.picked.length ? [`참고 시작가: ${e.priced.length ? won(e.sum) + '~' : ''}${e.custom.length ? (e.priced.length ? ' + ' : '') + '맞춤 견적' : ''} (확정 금액 아님)`] : []; })(),
     `희망 마감일: ${v('due') || '협의'}`,
     `사용 용도: ${v('use')}`,
     '',
@@ -322,7 +341,7 @@ const build = () => {
   ];
   return {sel, text: lines.join('\n')};
 };
-const refresh = () => { const b = build(); msg = b.text; out.textContent = msg; };
+const refresh = () => { const b = build(); msg = b.text; out.textContent = msg; renderEst(); };
 form.addEventListener('input', e => { save(); refresh(); if (e.target.getAttribute('aria-invalid')) e.target.removeAttribute('aria-invalid'); });
 form.addEventListener('change', save);
 addEventListener('pagehide', save);
@@ -360,7 +379,7 @@ form.addEventListener('submit', async e => {
     store.del('riye-req');
     say('접수됐어요! 확인하는 대로 디스코드로 연락드릴게요.');
     HTMLFormElement.prototype.reset.call(form);
-    $('saved').textContent = '';
+    $('saved').textContent = ''; renderEst();
   } catch(err) {
     say('전송에 실패했어요. 작성한 내용은 그대로 저장돼 있어요. 내용 복사 후 디스코드 Riye97로 보내주세요.', true);
     selectOut();
@@ -370,7 +389,7 @@ $('clearBtn').addEventListener('click', () => {
   if ($('clearBtn').dataset.sure !== '1') { $('clearBtn').dataset.sure = '1'; $('clearBtn').textContent = '한 번 더 누르면 지워요'; setTimeout(() => { $('clearBtn').dataset.sure = ''; $('clearBtn').textContent = '초기화'; }, 3000); return; }
   $('clearBtn').dataset.sure = ''; $('clearBtn').textContent = '초기화';
   HTMLFormElement.prototype.reset.call(form);
-  store.del('riye-req'); msg = ''; out.textContent = PREVIEW_EMPTY;
+  store.del('riye-req'); msg = ''; out.textContent = PREVIEW_EMPTY; renderEst();
   $('err').textContent = ''; say(''); $('saved').textContent = '';
   form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
 });
