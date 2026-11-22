@@ -238,7 +238,7 @@ footer p{margin:6px 0 0}
       <div style="position:absolute;left:-9999px" aria-hidden="true"><label for="hp">비워두세요</label><input id="hp" tabindex="-1" autocomplete="off"></div>
       <label style="display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:15px"><input type="checkbox" id="agree" style="width:22px;min-height:22px;margin-top:2px;flex:none"> 디스코드 아이디로 연락받는 데 동의해요.</label>
       <p class="err" id="err" role="alert"></p>
-      <div style="display:flex;flex-wrap:wrap;gap:12px"><button class="btn" type="submit" id="send">의뢰서 보내기</button><button class="btn g" type="button" id="reset">초기화</button></div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px"><button class="btn" type="submit" id="send">의뢰서 보내기</button><button class="btn g" type="button" id="clearBtn">초기화</button></div>
     </form>
     <aside class="preview" aria-live="polite">
       <div class="hd"><div class="av">리</div><div><b style="color:#fff">#의뢰-접수</b><div style="font-size:13px;color:#949ba4">리예 공방 🔨 디스코드</div></div></div>
@@ -403,7 +403,7 @@ $('f').addEventListener('submit', e=>{
     .catch(()=>{ toast.textContent = '전송에 실패했어요. 내용 복사 후 디스코드 Riye97로 보내주세요.'; })
     .finally(()=>{ btn.disabled = false; btn.textContent = '의뢰서 보내기'; });
 });
-$('reset').addEventListener('click', ()=>{ $('f').reset(); types.forEach((_,i)=>$('t'+i).checked=false); try{localStorage.removeItem('riye-req')}catch(e){} msg=''; out.textContent='의뢰서를 작성하면 여기에 메시지가 만들어져요.'; $('err').textContent=''; toast.textContent=''; });
+$('clearBtn').addEventListener('click', ()=>{ $('f').reset(); types.forEach((_,i)=>$('t'+i).checked=false); try{localStorage.removeItem('riye-req')}catch(e){} msg=''; out.textContent='의뢰서를 작성하면 여기에 메시지가 만들어져요.'; $('err').textContent=''; toast.textContent=''; });
 
 const copy = async (text, ok) => {
   try{ await navigator.clipboard.writeText(text); toast.textContent = ok; }
