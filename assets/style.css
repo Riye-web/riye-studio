@@ -200,6 +200,38 @@ p{margin:0}
 .pinned .svc-h h3{font-size:clamp(36px,4vw,64px)}
 .pinned .svc-note{display:none}
 
+/* pricing */
+.svc-d{color:var(--paper-mute)}
+.svc-f{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--paper-mute)}
+.svc-f li::before{content:"— ";color:var(--pink)}
+.plans{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid #cfccc5}
+.plan{padding:12px 0;border-bottom:1px solid #cfccc5}
+.svc-txt .plan::before{content:none}
+.plan-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.plan-h b{font-size:15px}
+.plan-p{font:700 16px var(--f-b);white-space:nowrap;color:var(--paper-ink)}
+.plan p{font-size:14px;color:var(--paper-mute);margin-top:4px}
+.plan-d{display:block;font-size:13px;color:#6e6b74;margin-top:2px}
+.svc-x{font-size:13px;color:var(--paper-mute);margin-top:12px}
+.svc-x b{color:var(--paper-ink);font-weight:500}
+.tlink-dark{color:var(--paper-ink);margin-top:6px}
+.tlink-dark::after{background:rgba(18,18,20,.3)}
+.services .note{max-width:72ch}
+.est{border:1px solid #3a3a42;border-radius:12px;padding:14px 16px;margin-top:12px;font-size:14px}
+.est[hidden]{display:none}
+.est-h{color:var(--mute);font-size:13px;margin-bottom:6px}
+.est ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.est li{display:flex;justify-content:space-between;gap:12px}
+.est li b{white-space:nowrap;font-weight:500}
+.est-sum{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+.est-sum b{color:var(--ink);white-space:nowrap}
+.est-n{color:var(--dim);font-size:12px;margin-top:8px}
+.pinned .svc-body{grid-template-rows:minmax(96px,1fr) auto}
+.pinned .svc-txt{display:block!important}
+.pinned .svc-f{display:none}
+.pinned .plans{margin-top:10px}
+.pinned .plan{padding:8px 0}
+
 /* process */
 .track{height:1px;background:var(--line);position:relative;margin-bottom:40px}
 .track i{position:absolute;inset:0;background:var(--pink);transform:scaleX(var(--p,0));transform-origin:left}
