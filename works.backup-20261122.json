@@ -1,0 +1,142 @@
+[
+  {
+    "id": "20261122-mjz74",
+    "title": "댄스 영상 배경",
+    "kind": "photo",
+    "category": "방송 배경·무대",
+    "date": "2026.05",
+    "summary": "댄스 영상 배경",
+    "desc": "작업 툴: 마야, 섭스턴스페인트, 유니티\n작업 기간 1주일",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/01-4.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/02-3.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/03-2.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-mjz74/04-1.jpg"
+      }
+    ]
+  },
+  {
+    "id": "20261122-si9wo",
+    "title": "방송 대기창 3D 제작건",
+    "kind": "photo",
+    "category": "기타",
+    "date": "2026.04",
+    "summary": "토크 방송 배경",
+    "desc": "작업 툴: 마야, 섭스턴스페인트, 브이레이\n작업 기간 1주일",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-si9wo/01-_3.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-si9wo/02-_02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-si9wo/03-_01.jpg"
+      }
+    ]
+  },
+  {
+    "id": "20261122-6hyv7",
+    "title": "버려진 기차역",
+    "kind": "photo",
+    "category": "VRChat 월드",
+    "date": "2026.01",
+    "summary": "숨박꼭지 맵",
+    "desc": "사용 툴: 마야, 지브러쉬, 섭스턴스 페인트, 브이레이 \n의뢰자: 치지직 스트리머 \n작업 기간 3주",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/01-_08.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/02-_07.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/03-_06.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/04-_05.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/05-_04.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/06-_03.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/07-_02.jpg"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-6hyv7/08-_01.jpg"
+      }
+    ]
+  },
+  {
+    "id": "20261122-ru94h",
+    "title": "전화 박스",
+    "kind": "photo",
+    "category": "3D 모델링",
+    "date": "2026.10",
+    "summary": "한국의 공중전화 박스",
+    "desc": "사용 툴: 마야, 섭스턴스 페인트, 마모셋",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/01-1.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/02-2.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/03-3.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/04-4.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/05-5.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/06-6.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/07-7.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/08-8.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/09-9.png"
+      }
+    ]
+  }
+]
