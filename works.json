@@ -1,1 +1,49 @@
-[]
+[
+  {
+    "id": "20261122-ru94h",
+    "title": "전화 박스",
+    "kind": "photo",
+    "category": "3D 모델링",
+    "date": "2026.10",
+    "summary": "한국의 공중전화 박스",
+    "desc": "사용 툴: 마야, 섭스턴스 페인트, 마모셋",
+    "media": [
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/01-1.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/02-2.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/03-3.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/04-4.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/05-5.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/06-6.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/07-7.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/08-8.png"
+      },
+      {
+        "type": "image",
+        "src": "works/20261122-ru94h/09-9.png"
+      }
+    ]
+  }
+]
