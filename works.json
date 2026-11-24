@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261124-pntsm",
+    "title": "서울 하루",
+    "kind": "video",
+    "category": "영상",
+    "sub": "인트로·오프닝",
+    "date": "",
+    "summary": "서울 하루 일상",
+    "desc": "",
+    "media": [
+      {
+        "type": "link",
+        "src": "https://youtu.be/YdXHC90SeMI?si=g6LbWVEVjS_JUsba"
+      }
+    ]
+  },
+  {
     "id": "20261124-g3w8m",
     "title": "경기패스 브이로그 #1",
     "kind": "video",
