@@ -14,7 +14,10 @@ const PR = window.RIYE_PRICING || {services: [], budgets: []};
 const won = n => n.toLocaleString('ko-KR') + '원';
 const svc = PR.services;
 const types = svc.map(x => x.type);
-const CATS = ['VRChat 월드','방송 배경·무대','3D 모델링','방송용 영상','사진','기타'];
+const CATS = ['VRChat 월드','방송 배경·무대','3D 모델링','영상','사진','기타'];
+// 영상 세부 분류 (작업물 category가 '영상'일 때 sub에 저장)
+const VSUBS = ['숏폼','롱폼','게임 영상','제품·광고 영상','인트로·오프닝','뮤직비디오·PV','3D 애니메이션·렌더','방송 하이라이트','기타 영상'];
+const normCat = c => c === '방송용 영상' ? '영상' : c;
 const faq = [
   ['작업 기간은 얼마나 걸려요?','소품은 보통 1주, 배경·영상은 2~3주, 월드는 3~6주 정도예요. 급한 일정은 상담에서 가능한지 먼저 말씀드려요.'],
   ['결제는 어떻게 해요?','견적 확정 후 착수금 50%, 납품 전 잔금 50%로 진행해요. 계좌이체와 세금계산서·현금영수증 발행이 가능해요.'],
@@ -25,7 +28,7 @@ const faq = [
 ];
 
 // ---------- state ----------
-let works = [], cat = '전체', shown = [];
+let works = [], cat = '전체', sub = '', shown = [];
 let viewerOpen = false, vList = [], vIdx = 0, lastFocus = null, originEl = null;
 
 // ---------- helpers ----------
@@ -167,6 +170,10 @@ setPinMode();
 
 // ---------- works ----------
 const wk = $('wk'), flt = $('flt');
+const flt2 = document.createElement('div');
+flt2.className = 'filters subf'; flt2.id = 'flt2'; flt2.hidden = true;
+flt2.setAttribute('role', 'toolbar'); flt2.setAttribute('aria-label', '영상 세부 분류');
+flt.after(flt2);
 const lazyVideo = new IntersectionObserver(es => es.forEach(en => {
   if (en.isIntersecting) { const v = en.target; v.preload = 'metadata'; v.src = v.dataset.src + '#t=0.5'; lazyVideo.unobserve(v); }
 }), {rootMargin:'200px'});
@@ -175,6 +182,12 @@ const renderFilters = () => {
   const cats = ['전체', ...CATS, ...extra];
   const n = c => c === '전체' ? works.length : works.filter(w => w.category === c).length;
   flt.innerHTML = cats.map(c => `<button type="button" aria-pressed="${c === cat}" data-c="${esc(c)}">${esc(c)}<sup>${n(c)}</sup></button>`).join('');
+  flt2.hidden = cat !== '영상';
+  if (cat === '영상') {
+    const vids = works.filter(w => w.category === '영상');
+    const subs = ['', ...VSUBS, ...[...new Set(vids.map(w => w.sub).filter(Boolean))].filter(s => !VSUBS.includes(s))];
+    flt2.innerHTML = subs.map(s => `<button type="button" aria-pressed="${s === sub}" data-s="${esc(s)}">${esc(s || '전체 영상')}<sup>${s ? vids.filter(w => w.sub === s).length : vids.length}</sup></button>`).join('');
+  }
 };
 const cardHTML = w => {
   const c = coverOf(w);
@@ -182,11 +195,11 @@ const cardHTML = w => {
     ? `<video data-src="${esc(c.src)}" muted playsinline preload="none" aria-hidden="true"></video>`
     : `<img ${imgAttr(c,'sm','(max-width:760px) 100vw, 50vw')} alt="" loading="lazy" decoding="async">`;
   const cnt = (w.media || []).length;
-  return `<button type="button" class="card" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
+  return `<button type="button" class="card" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.sub || w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
 };
 const renderWorks = () => {
   renderFilters();
-  shown = works.filter(w => cat === '전체' || w.category === cat);
+  shown = works.filter(w => (cat === '전체' || w.category === cat) && (cat !== '영상' || !sub || w.sub === sub));
   wk.innerHTML = shown.length ? shown.map(cardHTML).join('')
     : `<div class="empty">${cat === '전체' ? '작업물을 준비하고 있어요. 디스코드 포트폴리오 채널에서 먼저 볼 수 있어요.' : '이 분류에는 아직 작업물이 없어요.'}</div>`;
   wk.querySelectorAll('video[data-src]').forEach(v => lazyVideo.observe(v));
@@ -194,8 +207,13 @@ const renderWorks = () => {
 };
 flt.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  cat = b.dataset.c; renderWorks();
+  cat = b.dataset.c; sub = ''; renderWorks();
   flt.querySelector(`[aria-pressed="true"]`)?.focus();
+});
+flt2.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  sub = b.dataset.s; renderWorks();
+  flt2.querySelector(`[aria-pressed="true"]`)?.focus();
 });
 wk.addEventListener('click', e => {
   const b = e.target.closest('.card'); if (!b) return;
@@ -203,7 +221,7 @@ wk.addEventListener('click', e => {
   if (i > -1) openViewer(shown, i, b.querySelector('.card-media'));
 });
 
-fetch('works.json?v=' + Date.now()).then(r => r.ok ? r.json() : []).then(d => { works = Array.isArray(d) ? d : []; })
+fetch('works.json?v=' + Date.now()).then(r => r.ok ? r.json() : []).then(d => { works = (Array.isArray(d) ? d : []).map(w => ({...w, category: normCat(w.category)})); })
   .catch(() => { works = []; })
   .finally(() => { renderWorks(); renderSvc(); setPinMode(); onScroll(); });
 
@@ -219,11 +237,11 @@ const mediaHTML = (m, w, k) => {
 };
 const fillViewer = () => {
   const w = vList[vIdx];
-  $('vCat').textContent = [w.category, w.date].filter(Boolean).join(' · ');
+  $('vCat').textContent = [w.category, w.sub, w.date].filter(Boolean).join(' · ');
   $('vTitle').textContent = w.title;
   $('vPos').textContent = `${vIdx + 1} / ${vList.length}`;
   $('vPrev').disabled = $('vNext').disabled = vList.length < 2;
-  vBody.innerHTML = `<div class="v-grid"><div class="v-info"><h4>${esc(w.title)}</h4>${w.summary ? `<p class="sum">${esc(w.summary)}</p>` : ''}<dl>${w.category ? `<div><dt>분류</dt><dd>${esc(w.category)}</dd></div>` : ''}${w.date ? `<div><dt>날짜</dt><dd>${esc(w.date)}</dd></div>` : ''}${w.desc ? `<div><dt>작업 정보</dt><dd>${esc(w.desc)}</dd></div>` : ''}<div><dt>미디어</dt><dd>${(w.media||[]).length}개</dd></div></dl></div><div class="v-media">${(w.media || []).map((m, k) => mediaHTML(m, w, k)).join('')}</div></div>`;
+  vBody.innerHTML = `<div class="v-grid"><div class="v-info"><h4>${esc(w.title)}</h4>${w.summary ? `<p class="sum">${esc(w.summary)}</p>` : ''}<dl>${w.category ? `<div><dt>분류</dt><dd>${esc([w.category, w.sub].filter(Boolean).join(' · '))}</dd></div>` : ''}${w.date ? `<div><dt>날짜</dt><dd>${esc(w.date)}</dd></div>` : ''}${w.desc ? `<div><dt>작업 정보</dt><dd>${esc(w.desc)}</dd></div>` : ''}<div><dt>미디어</dt><dd>${(w.media||[]).length}개</dd></div></dl></div><div class="v-media">${(w.media || []).map((m, k) => mediaHTML(m, w, k)).join('')}</div></div>`;
   vBody.scrollTop = 0;
 };
 const clipFrom = el => {
