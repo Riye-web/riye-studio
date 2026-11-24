@@ -1,5 +1,21 @@
 [
   {
+    "id": "20261124-3ur75",
+    "title": "여름 하루",
+    "kind": "video",
+    "category": "영상",
+    "sub": "인트로·오프닝",
+    "date": "2025.07",
+    "summary": "여름 날 하루",
+    "desc": "",
+    "media": [
+      {
+        "type": "link",
+        "src": "https://youtu.be/uF6lEeCuBn4?si=mWbjM8t56DkEzD5h"
+      }
+    ]
+  },
+  {
     "id": "20261122-mjz74",
     "title": "댄스 영상 배경",
     "kind": "photo",
