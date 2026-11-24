@@ -59,6 +59,7 @@ fieldset{border:0;padding:0;margin:0}
 <header><div class="hd"><img src="assets/logo.svg" alt="" width="30" height="30"><b>RIYE STUDIO 관리자</b><a href="./">사이트로 돌아가기 →</a></div></header>
 <main>
 <h1>Admin</h1>
+<p class="hint" style="margin:-8px 0 18px">관리 페이지 버전 2026.11.25-2</p>
 
 <section id="auth">
   <h2>GitHub 연결</h2>
@@ -183,7 +184,9 @@ const toWebp=async(file,max,q=.82,up=false)=>{
 };
 
 const loadWorks=async()=>{
-  try{const d=await gh(`/contents/works.json?ref=${BRANCH}`);worksSha=d.sha;works=JSON.parse(fromB64Text(d.content)||'[]')}
+  // 브랜치 이름으로 읽으면 저장 직후 몇 초 동안 옛 목록이 올 수 있어서, 최신 커밋을 먼저 확인하고 그 커밋 기준으로 읽어요
+  let ref=BRANCH;try{const r=await gh(`/git/ref/heads/${BRANCH}?t=${Date.now()}`);if(r&&r.object&&r.object.sha)ref=r.object.sha}catch(e){}
+  try{const d=await gh(`/contents/works.json?ref=${ref}&t=${Date.now()}`);worksSha=d.sha;works=JSON.parse(fromB64Text(d.content)||'[]')}
   catch(e){if(e.status===404){works=[];worksSha=null}else throw e}
   renderList();
 };
@@ -195,10 +198,10 @@ const saveWorks=async(msg)=>{
 };
 // 항상 GitHub의 최신 목록을 받아서 바꾼 뒤 저장해요. 다른 저장과 겹치면(409) 최신본으로 다시 시도해요.
 const updateWorks=async(msg,fn)=>{
-  for(let t=0;t<4;t++){
+  for(let t=0;t<6;t++){
     await loadWorks();fn(works);
     try{await saveWorks(msg);renderList();return}
-    catch(e){if(e.status!==409&&!/does not match/i.test(e.message))throw e;await new Promise(r=>setTimeout(r,800*(t+1)))}
+    catch(e){if(e.status!==409&&!/does not match/i.test(e.message))throw e;await new Promise(r=>setTimeout(r,1000*(t+1)))}
   }
   throw new Error('저장이 계속 겹쳐요. 잠시 뒤 다시 시도해 주세요');
 };
