@@ -101,7 +101,7 @@ fieldset{border:0;padding:0;margin:0}
       <div><label for="plinks">추가 영상 링크 (선택, 줄마다 하나)</label><textarea id="plinks" style="min-height:60px" placeholder="https://youtu.be/..."></textarea></div>
     </div>
     <label class="check"><input type="checkbox" id="optimize" checked> <span>이미지 최적본(WebP) 함께 만들기 — 사이트가 훨씬 빨리 열려요. 원본도 그대로 올라가요.</span></label>
-    <label class="check"><input type="checkbox" id="hd" checked> <span>고화질 버전(최대 4K, WebP 고품질) 함께 만들기 — 큰 모니터·레티나 화면에서 선명하게 보여요. 1600px보다 큰 이미지에만 만들어져요.</span></label>
+    <p class="hint" style="margin:0">4K 고화질(최대 3840px, WebP 고품질) 버전이 기본으로 함께 만들어지고, 작업물 상세 보기에서는 이 고화질 버전을 보여줘요. 1600px 이하 이미지는 원래 크기 그대로 보여요.</p>
     <div class="files" id="picked"></div>
 
     <div><button class="btn" type="submit" id="save">올리기</button><div class="bar" hidden id="bar"><i></i></div></div>
@@ -214,7 +214,6 @@ const sync=()=>{
   const fs=kind()==='photo'?[...$('pfiles').files]:[...(vsrc()==='file'?$('vfile').files:[]),...$('thumb').files];
   $('picked').innerHTML=fs.map(f=>`<span>${f.type.startsWith('video')?'🎬':'🖼'} ${esc(f.name)} · ${(f.size/1048576).toFixed(1)}MB${f.size>95*1048576?' <b class="bad">너무 커요</b>':''}</span>`).join('');
 };
-$('optimize').addEventListener('change',()=>{$('hd').disabled=!$('optimize').checked});
 $('f').addEventListener('change',sync);sync();
 
 const isLink=u=>/^https?:\/\/\S+$/i.test(u);
@@ -239,7 +238,7 @@ $('f').addEventListener('submit',async e=>{
   }
   const all=[...uploads.map(u=>u.f),...(thumbFile?[thumbFile]:[])];
   if(all.some(f=>f.size>95*1048576)){msg.innerHTML='<span class="bad">95MB가 넘는 파일이 있어요. 유튜브 링크로 올려주세요.</span>';return}
-  const opt=$('optimize').checked, hd=opt&&$('hd').checked;
+  const opt=$('optimize').checked, hd=opt;
   const nImg=all.filter(f=>f.type.startsWith('image')).length;
 
   const id=new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+Math.random().toString(36).slice(2,7);
