@@ -104,6 +104,10 @@ p{margin:0}
 .filters button:hover{color:var(--ink);border-color:#45454d}
 .filters button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .filters sup{font-size:11px;opacity:.6;margin-left:4px;vertical-align:baseline}
+.subf{margin-top:-20px}
+.subf[hidden]{display:none}
+.subf button{min-height:38px;padding:0 14px;font-size:13px}
+.subf button[aria-pressed=true]{background:transparent;color:var(--ink);border-color:var(--ink)}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(16px,2vw,28px)}
 .card{grid-column:span 6;position:relative;display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer;color:inherit}
 .card:nth-child(4n+1){grid-column:span 7}.card:nth-child(4n+2){grid-column:span 5;margin-top:14%}
