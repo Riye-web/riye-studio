@@ -195,9 +195,10 @@ const cardHTML = w => {
     ? `<video data-src="${esc(c.src)}" muted playsinline preload="none" aria-hidden="true"></video>`
     : `<img ${imgAttr(c,'sm','(max-width:760px) 100vw, 50vw')} alt="" loading="lazy" decoding="async">`;
   const cnt = (w.media || []).length;
-  return `<button type="button" class="card" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.sub || w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
+  const ar = c && /img\.youtube\.com/.test(c.src || '') ? 1.778 : 1.5; // 사진은 불러온 뒤 실제 비율로 바뀌어요
+  return `<button type="button" class="card" style="--ar:${ar}" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.sub || w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
 };
-const GROUP_MAX = 6;
+const GROUP_MAX = 8;
 const renderWorks = () => {
   renderFilters();
   shown = works.filter(w => (cat === '전체' || w.category === cat) && (cat !== '영상' || !sub || w.sub === sub));
@@ -216,11 +217,20 @@ const renderWorks = () => {
   if (groups && groups.length) {
     shown = groups.flatMap(g => g.list.slice(0, GROUP_MAX));
     wk.innerHTML = groups.map(g => `<section class="wk-sec" aria-label="${esc(g.name)}"><div class="wk-sec-h"><h3>${esc(g.name)}<sup>${g.list.length}</sup></h3>${g.go ? `<button type="button" class="wk-more" ${g.go}>${g.list.length > GROUP_MAX ? `${g.list.length}개 모두 보기` : '이 분류만 보기'} <span aria-hidden="true">→</span></button>` : ''}</div><div class="wk-sec-g">${g.list.slice(0, GROUP_MAX).map(cardHTML).join('')}</div></section>`).join('');
-  } else wk.innerHTML = shown.length ? shown.map(cardHTML).join('')
+  } else wk.innerHTML = shown.length ? `<div class="wk-sec wk-flat"><div class="wk-sec-g">${shown.map(cardHTML).join('')}</div></div>`
     : `<div class="empty">${cat === '전체' ? '작업물을 준비하고 있어요. 디스코드 포트폴리오 채널에서 먼저 볼 수 있어요.' : '이 분류에는 아직 작업물이 없어요.'}</div>`;
   wk.querySelectorAll('video[data-src]').forEach(v => lazyVideo.observe(v));
+  wk.querySelectorAll('.card img').forEach(i => i.complete && i.naturalWidth && setAr(i));
   observeReveal(wk);
 };
+// 갤러리: 사진·영상의 실제 비율에 맞춰 줄을 채워요 (유튜브 썸네일은 16:9 고정)
+const setAr = el => {
+  const card = el.closest('.card'); if (!card || /img\.youtube\.com/.test(el.currentSrc || el.src || '')) return;
+  const w = el.naturalWidth || el.videoWidth, h = el.naturalHeight || el.videoHeight;
+  if (w && h) card.style.setProperty('--ar', Math.min(2.4, Math.max(.6, w / h)).toFixed(3));
+};
+wk.addEventListener('load', e => { if (e.target.tagName === 'IMG') setAr(e.target); }, true);
+wk.addEventListener('loadedmetadata', e => { if (e.target.tagName === 'VIDEO') setAr(e.target); }, true);
 flt.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   cat = b.dataset.c; sub = ''; renderWorks();
