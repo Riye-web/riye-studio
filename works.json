@@ -12,25 +12,41 @@
         "type": "image",
         "src": "works/20261122-mjz74/01-4.jpg",
         "opt": "works/20261122-mjz74/01-4.opt.webp",
-        "sm": "works/20261122-mjz74/01-4.sm.webp"
+        "sm": "works/20261122-mjz74/01-4.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-mjz74/01-4.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-mjz74/02-3.jpg",
         "opt": "works/20261122-mjz74/02-3.opt.webp",
-        "sm": "works/20261122-mjz74/02-3.sm.webp"
+        "sm": "works/20261122-mjz74/02-3.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-mjz74/02-3.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-mjz74/03-2.jpg",
         "opt": "works/20261122-mjz74/03-2.opt.webp",
-        "sm": "works/20261122-mjz74/03-2.sm.webp"
+        "sm": "works/20261122-mjz74/03-2.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-mjz74/03-2.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-mjz74/04-1.jpg",
         "opt": "works/20261122-mjz74/04-1.opt.webp",
-        "sm": "works/20261122-mjz74/04-1.sm.webp"
+        "sm": "works/20261122-mjz74/04-1.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-mjz74/04-1.hd.webp",
+        "hdW": 3508
       }
     ]
   },
@@ -47,19 +63,31 @@
         "type": "image",
         "src": "works/20261122-si9wo/01-_3.jpg",
         "opt": "works/20261122-si9wo/01-_3.opt.webp",
-        "sm": "works/20261122-si9wo/01-_3.sm.webp"
+        "sm": "works/20261122-si9wo/01-_3.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-si9wo/01-_3.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-si9wo/02-_02.jpg",
         "opt": "works/20261122-si9wo/02-_02.opt.webp",
-        "sm": "works/20261122-si9wo/02-_02.sm.webp"
+        "sm": "works/20261122-si9wo/02-_02.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-si9wo/02-_02.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-si9wo/03-_01.jpg",
         "opt": "works/20261122-si9wo/03-_01.opt.webp",
-        "sm": "works/20261122-si9wo/03-_01.sm.webp"
+        "sm": "works/20261122-si9wo/03-_01.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-si9wo/03-_01.hd.webp",
+        "hdW": 3508
       }
     ]
   },
@@ -76,49 +104,81 @@
         "type": "image",
         "src": "works/20261122-6hyv7/01-_08.jpg",
         "opt": "works/20261122-6hyv7/01-_08.opt.webp",
-        "sm": "works/20261122-6hyv7/01-_08.sm.webp"
+        "sm": "works/20261122-6hyv7/01-_08.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/01-_08.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/02-_07.jpg",
         "opt": "works/20261122-6hyv7/02-_07.opt.webp",
-        "sm": "works/20261122-6hyv7/02-_07.sm.webp"
+        "sm": "works/20261122-6hyv7/02-_07.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/02-_07.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/03-_06.jpg",
         "opt": "works/20261122-6hyv7/03-_06.opt.webp",
-        "sm": "works/20261122-6hyv7/03-_06.sm.webp"
+        "sm": "works/20261122-6hyv7/03-_06.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/03-_06.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/04-_05.jpg",
         "opt": "works/20261122-6hyv7/04-_05.opt.webp",
-        "sm": "works/20261122-6hyv7/04-_05.sm.webp"
+        "sm": "works/20261122-6hyv7/04-_05.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/04-_05.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/05-_04.jpg",
         "opt": "works/20261122-6hyv7/05-_04.opt.webp",
-        "sm": "works/20261122-6hyv7/05-_04.sm.webp"
+        "sm": "works/20261122-6hyv7/05-_04.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/05-_04.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/06-_03.jpg",
         "opt": "works/20261122-6hyv7/06-_03.opt.webp",
-        "sm": "works/20261122-6hyv7/06-_03.sm.webp"
+        "sm": "works/20261122-6hyv7/06-_03.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/06-_03.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/07-_02.jpg",
         "opt": "works/20261122-6hyv7/07-_02.opt.webp",
-        "sm": "works/20261122-6hyv7/07-_02.sm.webp"
+        "sm": "works/20261122-6hyv7/07-_02.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/07-_02.hd.webp",
+        "hdW": 3508
       },
       {
         "type": "image",
         "src": "works/20261122-6hyv7/08-_01.jpg",
         "opt": "works/20261122-6hyv7/08-_01.opt.webp",
-        "sm": "works/20261122-6hyv7/08-_01.sm.webp"
+        "sm": "works/20261122-6hyv7/08-_01.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-6hyv7/08-_01.hd.webp",
+        "hdW": 3508
       }
     ]
   },
@@ -135,55 +195,91 @@
         "type": "image",
         "src": "works/20261122-ru94h/01-1.png",
         "opt": "works/20261122-ru94h/01-1.opt.webp",
-        "sm": "works/20261122-ru94h/01-1.sm.webp"
+        "sm": "works/20261122-ru94h/01-1.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/01-1.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/02-2.png",
         "opt": "works/20261122-ru94h/02-2.opt.webp",
-        "sm": "works/20261122-ru94h/02-2.sm.webp"
+        "sm": "works/20261122-ru94h/02-2.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/02-2.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/03-3.png",
         "opt": "works/20261122-ru94h/03-3.opt.webp",
-        "sm": "works/20261122-ru94h/03-3.sm.webp"
+        "sm": "works/20261122-ru94h/03-3.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/03-3.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/04-4.png",
         "opt": "works/20261122-ru94h/04-4.opt.webp",
-        "sm": "works/20261122-ru94h/04-4.sm.webp"
+        "sm": "works/20261122-ru94h/04-4.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/04-4.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/05-5.png",
         "opt": "works/20261122-ru94h/05-5.opt.webp",
-        "sm": "works/20261122-ru94h/05-5.sm.webp"
+        "sm": "works/20261122-ru94h/05-5.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/05-5.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/06-6.png",
         "opt": "works/20261122-ru94h/06-6.opt.webp",
-        "sm": "works/20261122-ru94h/06-6.sm.webp"
+        "sm": "works/20261122-ru94h/06-6.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/06-6.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/07-7.png",
         "opt": "works/20261122-ru94h/07-7.opt.webp",
-        "sm": "works/20261122-ru94h/07-7.sm.webp"
+        "sm": "works/20261122-ru94h/07-7.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/07-7.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/08-8.png",
         "opt": "works/20261122-ru94h/08-8.opt.webp",
-        "sm": "works/20261122-ru94h/08-8.sm.webp"
+        "sm": "works/20261122-ru94h/08-8.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/08-8.hd.webp",
+        "hdW": 1920
       },
       {
         "type": "image",
         "src": "works/20261122-ru94h/09-9.png",
         "opt": "works/20261122-ru94h/09-9.opt.webp",
-        "sm": "works/20261122-ru94h/09-9.sm.webp"
+        "sm": "works/20261122-ru94h/09-9.sm.webp",
+        "optW": 1600,
+        "smW": 720,
+        "hd": "works/20261122-ru94h/09-9.hd.webp",
+        "hdW": 1920
       }
     ]
   }
