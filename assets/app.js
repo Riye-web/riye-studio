@@ -195,10 +195,26 @@ const cardHTML = w => {
   const cnt = (w.media || []).length;
   return `<button type="button" class="card" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.sub || w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
 };
+const GROUP_MAX = 6;
 const renderWorks = () => {
   renderFilters();
   shown = works.filter(w => (cat === '전체' || w.category === cat) && (cat !== '영상' || !sub || w.sub === sub));
-  wk.innerHTML = shown.length ? shown.map(cardHTML).join('')
+  // '전체'는 카테고리별, '영상 > 전체 영상'은 세부 분류별로 묶어서 보여줘요
+  let groups = null;
+  if (cat === '전체') {
+    const cs = [...CATS, ...new Set(works.map(w => w.category).filter(c => c && !CATS.includes(c)))];
+    groups = cs.map(c => ({name: c, list: shown.filter(w => w.category === c), go: `data-go-c="${esc(c)}"`}));
+    groups.push({name: '분류 없음', list: shown.filter(w => !w.category), go: ''});
+  } else if (cat === '영상' && !sub) {
+    const ss = [...VSUBS, ...new Set(shown.map(w => w.sub).filter(s => s && !VSUBS.includes(s)))];
+    groups = ss.map(s => ({name: s, list: shown.filter(w => w.sub === s), go: `data-go-s="${esc(s)}"`}));
+    groups.push({name: '세부 분류 미지정', list: shown.filter(w => !w.sub), go: ''});
+  }
+  if (groups) groups = groups.filter(g => g.list.length);
+  if (groups && groups.length) {
+    shown = groups.flatMap(g => g.list.slice(0, GROUP_MAX));
+    wk.innerHTML = groups.map(g => `<section class="wk-sec" aria-label="${esc(g.name)}"><div class="wk-sec-h"><h3>${esc(g.name)}<sup>${g.list.length}</sup></h3>${g.go ? `<button type="button" class="wk-more" ${g.go}>${g.list.length > GROUP_MAX ? `${g.list.length}개 모두 보기` : '이 분류만 보기'} <span aria-hidden="true">→</span></button>` : ''}</div><div class="wk-sec-g">${g.list.slice(0, GROUP_MAX).map(cardHTML).join('')}</div></section>`).join('');
+  } else wk.innerHTML = shown.length ? shown.map(cardHTML).join('')
     : `<div class="empty">${cat === '전체' ? '작업물을 준비하고 있어요. 디스코드 포트폴리오 채널에서 먼저 볼 수 있어요.' : '이 분류에는 아직 작업물이 없어요.'}</div>`;
   wk.querySelectorAll('video[data-src]').forEach(v => lazyVideo.observe(v));
   observeReveal(wk);
@@ -214,6 +230,13 @@ flt2.addEventListener('click', e => {
   flt2.querySelector(`[aria-pressed="true"]`)?.focus();
 });
 wk.addEventListener('click', e => {
+  const g = e.target.closest('.wk-more');
+  if (g) {
+    if (g.dataset.goC !== undefined) { cat = g.dataset.goC; sub = ''; } else { cat = '영상'; sub = g.dataset.goS; }
+    renderWorks();
+    $('works').scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    return;
+  }
   const b = e.target.closest('.card'); if (!b) return;
   const i = shown.findIndex(w => w.id === b.dataset.id);
   if (i > -1) openViewer(shown, i, b.querySelector('.card-media'));
