@@ -97,10 +97,11 @@ fieldset{border:0;padding:0;margin:0}
     </div>
 
     <div id="photoBox" class="grid" hidden>
-      <div><label for="pfiles">사진·영상 파일</label><input id="pfiles" type="file" accept="image/*,video/*" multiple><p class="hint">사진과 영상을 여러 개 함께 고를 수 있어요. 첫 번째 사진이 썸네일이 돼요.</p></div>
+      <div><label for="pfiles">사진·영상 파일</label><input id="pfiles" type="file" accept="image/*,video/*" multiple><p class="hint">사진과 영상을 여러 개 함께 고를 수 있어요. 첫 번째 사진이 썸네일이 돼요. 파일 하나 최대 95MB, 원본 해상도 그대로 저장돼요. 고화질로 보여주려면 긴 변 3840px 이상, 압축을 적게 한 JPG·PNG로 올려 주세요.</p></div>
       <div><label for="plinks">추가 영상 링크 (선택, 줄마다 하나)</label><textarea id="plinks" style="min-height:60px" placeholder="https://youtu.be/..."></textarea></div>
     </div>
     <label class="check"><input type="checkbox" id="optimize" checked> <span>이미지 최적본(WebP) 함께 만들기 — 사이트가 훨씬 빨리 열려요. 원본도 그대로 올라가요.</span></label>
+    <label class="check"><input type="checkbox" id="hd" checked> <span>고화질 버전(최대 4K, WebP 고품질) 함께 만들기 — 큰 모니터·레티나 화면에서 선명하게 보여요. 1600px보다 큰 이미지에만 만들어져요.</span></label>
     <div class="files" id="picked"></div>
 
     <div><button class="btn" type="submit" id="save">올리기</button><div class="bar" hidden id="bar"><i></i></div></div>
@@ -160,7 +161,7 @@ const findBars=bmp=>{
   return top>sh*.02&&bot>sh*.02?[Math.round(top*bmp.height/sh),Math.round(bot*bmp.height/sh)]:[0,0];
 };
 // WebP 최적본: 긴 변 기준으로 줄여서 WebP로 변환 (GIF·SVG는 원본만)
-const toWebp=async(file,max)=>{
+const toWebp=async(file,max,q=.82)=>{
   if(!/^image\/(png|jpe?g|webp|bmp)$/.test(file.type))return null;
   const bmp=await createImageBitmap(file);
   // 위아래 검은 여백(레터박스)이 있으면 최적본에서만 잘라내요. 원본은 그대로 올라가요.
@@ -169,8 +170,9 @@ const toWebp=async(file,max)=>{
   const w=Math.round(bmp.width*k),h=Math.round(sh*k);
   const c=document.createElement('canvas');c.width=w;c.height=h;
   c.getContext('2d').drawImage(bmp,0,t,bmp.width,sh,0,0,w,h);bmp.close&&bmp.close();
-  const blob=await new Promise(r=>c.toBlob(r,'image/webp',.82));
-  return blob&&blob.type==='image/webp'?blob:null;
+  const blob=await new Promise(r=>c.toBlob(r,'image/webp',q));
+  if(!blob||blob.type!=='image/webp')return null;
+  blob.w=w;blob.scaled=k<1;return blob;
 };
 
 const loadWorks=async()=>{
@@ -212,6 +214,7 @@ const sync=()=>{
   const fs=kind()==='photo'?[...$('pfiles').files]:[...(vsrc()==='file'?$('vfile').files:[]),...$('thumb').files];
   $('picked').innerHTML=fs.map(f=>`<span>${f.type.startsWith('video')?'🎬':'🖼'} ${esc(f.name)} · ${(f.size/1048576).toFixed(1)}MB${f.size>95*1048576?' <b class="bad">너무 커요</b>':''}</span>`).join('');
 };
+$('optimize').addEventListener('change',()=>{$('hd').disabled=!$('optimize').checked});
 $('f').addEventListener('change',sync);sync();
 
 const isLink=u=>/^https?:\/\/\S+$/i.test(u);
@@ -236,13 +239,13 @@ $('f').addEventListener('submit',async e=>{
   }
   const all=[...uploads.map(u=>u.f),...(thumbFile?[thumbFile]:[])];
   if(all.some(f=>f.size>95*1048576)){msg.innerHTML='<span class="bad">95MB가 넘는 파일이 있어요. 유튜브 링크로 올려주세요.</span>';return}
-  const opt=$('optimize').checked;
+  const opt=$('optimize').checked, hd=opt&&$('hd').checked;
   const nImg=all.filter(f=>f.type.startsWith('image')).length;
 
   const id=new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+Math.random().toString(36).slice(2,7);
   $('save').disabled=true;bar.hidden=false;fill.style.width='0%';
   try{
-    const total=all.length+(opt?nImg*2:0)+1;let done=0;
+    const total=all.length+(opt?nImg*(hd?3:2):0)+1;let done=0;
     const putBlob=async(blob,path,label)=>{
       msg.textContent=`올리는 중: ${label}`;
       await gh('/contents/'+path.split('/').map(encodeURIComponent).join('/'),{method:'PUT',body:JSON.stringify({message:`포트폴리오 파일: ${title}`,content:await blobB64(blob),branch:BRANCH})});
@@ -254,9 +257,10 @@ $('f').addEventListener('submit',async e=>{
       if(opt&&f.type.startsWith('image')){
         const stem=base.replace(/\.[^./]+$/,'');
         try{
-          const big=await toWebp(f,1600); if(big) out.opt=await putBlob(big,stem+'.opt.webp',f.name+' (최적본)'); else done++;
-          const sm=await toWebp(f,720); if(sm) out.sm=await putBlob(sm,stem+'.sm.webp',f.name+' (작은 최적본)'); else done++;
-        }catch(err){done+=2}
+          const big=await toWebp(f,1600); if(big){out.opt=await putBlob(big,stem+'.opt.webp',f.name+' (최적본)');out.optW=big.w} else done++;
+          const sm=await toWebp(f,720); if(sm){out.sm=await putBlob(sm,stem+'.sm.webp',f.name+' (작은 최적본)');out.smW=sm.w} else done++;
+          if(hd){const h=big&&big.scaled?await toWebp(f,3840,.92):null; if(h){out.hd=await putBlob(h,stem+'.hd.webp',f.name+' (고화질)');out.hdW=h.w} else done++}
+        }catch(err){done=Math.min(total-1,done+2)}
       }
       return out;
     };
