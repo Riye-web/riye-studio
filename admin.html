@@ -150,7 +150,7 @@ let token=''; try{token=localStorage.getItem('riye-gh')||''}catch(e){}
 let works=[], worksSha=null, editId=null;
 
 const gh=async(path,opt={})=>{
-  const r=await fetch(API+path,{...opt,headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
+  const r=await fetch(API+path,{cache:'no-store',...opt,headers:{Authorization:`Bearer ${token}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28',...(opt.headers||{})}});
   if(!r.ok){const t=await r.json().catch(()=>({}));const e=new Error(t.message||r.status);e.status=r.status;throw e}
   return r.status===204?null:r.json();
 };
@@ -192,6 +192,15 @@ const saveWorks=async(msg)=>{
   if(worksSha) body.sha=worksSha;
   const d=await gh('/contents/works.json',{method:'PUT',body:JSON.stringify(body)});
   worksSha=d.content.sha;
+};
+// 항상 GitHub의 최신 목록을 받아서 바꾼 뒤 저장해요. 다른 저장과 겹치면(409) 최신본으로 다시 시도해요.
+const updateWorks=async(msg,fn)=>{
+  for(let t=0;t<4;t++){
+    await loadWorks();fn(works);
+    try{await saveWorks(msg);renderList();return}
+    catch(e){if(e.status!==409&&!/does not match/i.test(e.message))throw e;await new Promise(r=>setTimeout(r,800*(t+1)))}
+  }
+  throw new Error('저장이 계속 겹쳐요. 잠시 뒤 다시 시도해 주세요');
 };
 const renderList=()=>{
   $('list').innerHTML=works.length?works.map(w=>{const t=thumbOf(w);return `<div class="item">${t?`<img src="${esc(t)}" alt="" loading="lazy">`:''}<div><b>${esc(w.title)}</b><span>${esc([w.kind==='photo'?'사진':'영상',[normCat(w.category),w.sub].filter(Boolean).join(' · '),w.date,`미디어 ${(w.media||[]).length}개`].filter(Boolean).join(' · '))}</span></div><button type="button" data-up="${esc(w.id)}" aria-label="${esc(w.title)} 위로">↑</button><button type="button" data-edit="${esc(w.id)}">편집</button><button type="button" data-del="${esc(w.id)}">삭제</button></div>`}).join(''):'<p class="hint">아직 올린 작업물이 없어요.</p>';
@@ -275,10 +284,9 @@ $('f').addEventListener('submit',async e=>{
     let thumb={};
     if(thumbFile){const r=await putFile(thumbFile,0);thumb={thumb:r.src,...(r.sm?{thumbSm:r.sm}:{})}}
     msg.textContent='목록 저장 중…';
-    await loadWorks();
-    works.unshift({id,title,kind:k,category:$('cat').value,...($('cat').value==='영상'?{sub:$('sub').value}:{}),date:$('date').value.replace('-','.'),summary:$('desc0').value.trim(),desc:$('desc').value.trim(),...thumb,media:[...fileMedia,...media]});
-    await saveWorks(`포트폴리오 추가: ${title}`);
-    fill.style.width='100%';renderList();
+    const entry={id,title,kind:k,category:$('cat').value,...($('cat').value==='영상'?{sub:$('sub').value}:{}),date:$('date').value.replace('-','.'),summary:$('desc0').value.trim(),desc:$('desc').value.trim(),...thumb,media:[...fileMedia,...media]};
+    await updateWorks(`포트폴리오 추가: ${title}`,ws=>{if(!ws.some(x=>x.id===id))ws.unshift(entry)});
+    fill.style.width='100%';
     msg.innerHTML='<span class="ok">올렸어요! 1~2분 뒤 사이트에 나와요.</span>';
     HTMLFormElement.prototype.reset.call($('f'));sync();subSync();
   }catch(err){msg.innerHTML=`<span class="bad">실패했어요: ${esc(err.message)}</span>`}
@@ -299,11 +307,11 @@ $('ef').addEventListener('submit',async e=>{
   if(!title){$('eMsg').innerHTML='<span class="bad">제목을 넣어주세요.</span>';return}
   $('eSave').disabled=true;$('eMsg').textContent='저장 중…';
   try{
-    await loadWorks();
-    const w=works.find(x=>x.id===editId);if(!w)throw new Error('작업물을 찾지 못했어요');
-    Object.assign(w,{title,category:$('eCat').value,date:$('eDate').value.replace('-','.'),summary:$('eSum').value.trim(),desc:$('eDesc').value.trim()});
-    if(w.category==='영상')w.sub=$('eSub').value;else delete w.sub;
-    await saveWorks(`포트폴리오 수정: ${title}`);renderList();
+    const ch={title,category:$('eCat').value,date:$('eDate').value.replace('-','.'),summary:$('eSum').value.trim(),desc:$('eDesc').value.trim()},sv=$('eSub').value;
+    await updateWorks(`포트폴리오 수정: ${title}`,ws=>{
+      const w=ws.find(x=>x.id===editId);if(!w)throw new Error('작업물을 찾지 못했어요');
+      Object.assign(w,ch);if(w.category==='영상')w.sub=sv;else delete w.sub;
+    });
     $('eMsg').innerHTML='<span class="ok">저장했어요! 1~2분 뒤 사이트에 반영돼요.</span>';
   }catch(err){$('eMsg').innerHTML=`<span class="bad">저장 실패: ${esc(err.message)}</span>`}
   finally{$('eSave').disabled=false}
@@ -316,11 +324,10 @@ $('list').addEventListener('click',async e=>{
   if(b.dataset.edit){openEdit(works[i]);return}
   if(b.dataset.del){
     if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='한 번 더 누르면 삭제';setTimeout(()=>{b.dataset.sure='';b.textContent='삭제'},4000);return}
-    const [w]=works.splice(i,1);
-    try{await saveWorks(`포트폴리오 삭제: ${w.title}`);renderList()}catch(err){works.splice(i,0,w);alert2(err)}
+    const t=works[i].title;
+    try{await updateWorks(`포트폴리오 삭제: ${t}`,ws=>{const k=ws.findIndex(x=>x.id===id);if(k>-1)ws.splice(k,1)})}catch(err){alert2(err)}
   }else if(i>0){
-    [works[i-1],works[i]]=[works[i],works[i-1]];
-    try{await saveWorks('포트폴리오 순서 변경');renderList()}catch(err){[works[i-1],works[i]]=[works[i],works[i-1]];alert2(err)}
+    try{await updateWorks('포트폴리오 순서 변경',ws=>{const k=ws.findIndex(x=>x.id===id);if(k>0)[ws[k-1],ws[k]]=[ws[k],ws[k-1]]})}catch(err){alert2(err)}
   }
 });
 const alert2=err=>{$('msg').innerHTML=`<span class="bad">저장 실패: ${esc(err.message)} — 새로고침 후 다시 해주세요.</span>`};
