@@ -125,6 +125,25 @@ p{margin:0}
 .card-meta h3{font-size:clamp(20px,2vw,28px);letter-spacing:-.02em}
 .card-meta p{font-size:14px;color:var(--mute);margin-top:6px}
 .card-meta time{font:500 13px var(--f-d);color:var(--dim);flex:none}
+/* works: 카테고리별 묶음 */
+.wk-sec{grid-column:1/-1;border-top:1px solid var(--line);padding-top:24px}
+.wk-sec+.wk-sec{margin-top:clamp(36px,5vw,72px)}
+.wk-sec-h{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+.wk-sec-h h3{font:700 clamp(22px,2.4vw,34px)/1.15 var(--f-b);letter-spacing:-.02em}
+.wk-sec-h sup{font:500 13px var(--f-d);color:var(--dim);margin-left:8px;vertical-align:super}
+.wk-more{flex:none;min-height:44px;padding:0 2px;background:none;border:0;color:var(--mute);font:500 14px var(--f-b);cursor:pointer;transition:color .2s}
+.wk-more:hover{color:var(--ink)}
+.wk-sec-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,28px)}
+.wk-sec-g .card:nth-child(n){grid-column:auto;margin-top:0}
+.wk-sec-g .card:nth-child(n) .card-media{aspect-ratio:4/3}
+.wk-sec-g .card-meta{padding-top:14px}
+.wk-sec-g .card-meta h3{font-size:clamp(17px,1.5vw,22px)}
+@media (max-width:900px){.wk-sec-g{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){
+  .wk-sec-g{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:80%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 calc(var(--pad)*-1);padding:0 var(--pad) 4px;scroll-padding:0 var(--pad)}
+  .wk-sec-g::-webkit-scrollbar{display:none}
+  .wk-sec-g .card{scroll-snap-align:start}
+}
 @media (hover:hover){
   .card:hover .card-media img,.card:hover .card-media video{transform:scale(1.05)}
   .card:hover .card-view{transform:scale(1);opacity:1}
