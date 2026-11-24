@@ -75,8 +75,9 @@ fieldset{border:0;padding:0;margin:0}
   <form id="f" class="grid" novalidate>
     <div class="two">
       <div><label for="title">제목</label><input id="title" placeholder="예: 벚꽃 노래방송 스테이지"></div>
-      <div><label for="cat">분류</label><select id="cat"><option>VRChat 월드</option><option>방송 배경·무대</option><option>3D 모델링</option><option>방송용 영상</option><option>사진</option><option>기타</option></select></div>
+      <div><label for="cat">분류</label><select id="cat"><option>VRChat 월드</option><option>방송 배경·무대</option><option>3D 모델링</option><option>영상</option><option>사진</option><option>기타</option></select></div>
     </div>
+    <div id="subBox" hidden><label for="sub">영상 세부 분류</label><select id="sub" data-vsub></select><p class="hint">숏폼, 롱폼, 게임 영상처럼 사이트에서 영상을 더 잘게 나눠 보여줘요.</p></div>
     <div class="two">
       <div><label for="date">날짜</label><input id="date" type="month"></div>
       <div><label for="desc0">한 줄 소개</label><input id="desc0" placeholder="예: Warudo용 3D 무대 · 의뢰작"></div>
@@ -115,8 +116,9 @@ fieldset{border:0;padding:0;margin:0}
   <form id="ef" class="grid" novalidate>
     <div class="two">
       <div><label for="eTitle">제목</label><input id="eTitle"></div>
-      <div><label for="eCat">분류</label><select id="eCat"><option>VRChat 월드</option><option>방송 배경·무대</option><option>3D 모델링</option><option>방송용 영상</option><option>사진</option><option>기타</option></select></div>
+      <div><label for="eCat">분류</label><select id="eCat"><option>VRChat 월드</option><option>방송 배경·무대</option><option>3D 모델링</option><option>영상</option><option>사진</option><option>기타</option></select></div>
     </div>
+    <div id="eSubBox" hidden><label for="eSub">영상 세부 분류</label><select id="eSub" data-vsub></select></div>
     <div class="two">
       <div><label for="eDate">날짜</label><input id="eDate" type="month"></div>
       <div><label for="eSum">한 줄 소개</label><input id="eSum"></div>
@@ -138,6 +140,11 @@ fieldset{border:0;padding:0;margin:0}
 {
 const OWNER='Riye-web', REPO='riye-studio', BRANCH='main', API=`https://api.github.com/repos/${OWNER}/${REPO}`;
 const $=id=>document.getElementById(id);
+const VSUBS=['숏폼','롱폼','게임 영상','제품·광고 영상','인트로·오프닝','뮤직비디오·PV','3D 애니메이션·렌더','방송 하이라이트','기타 영상'];
+const normCat=c=>c==='방송용 영상'?'영상':c;
+document.querySelectorAll('[data-vsub]').forEach(s=>s.innerHTML=VSUBS.map(v=>`<option>${v}</option>`).join(''));
+const subSync=()=>{$('subBox').hidden=$('cat').value!=='영상';$('eSubBox').hidden=$('eCat').value!=='영상'};
+$('cat').addEventListener('change',subSync);$('eCat').addEventListener('change',subSync);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let token=''; try{token=localStorage.getItem('riye-gh')||''}catch(e){}
 let works=[], worksSha=null, editId=null;
@@ -187,7 +194,7 @@ const saveWorks=async(msg)=>{
   worksSha=d.content.sha;
 };
 const renderList=()=>{
-  $('list').innerHTML=works.length?works.map(w=>{const t=thumbOf(w);return `<div class="item">${t?`<img src="${esc(t)}" alt="" loading="lazy">`:''}<div><b>${esc(w.title)}</b><span>${esc([w.kind==='photo'?'사진':'영상',w.category,w.date,`미디어 ${(w.media||[]).length}개`].filter(Boolean).join(' · '))}</span></div><button type="button" data-up="${esc(w.id)}" aria-label="${esc(w.title)} 위로">↑</button><button type="button" data-edit="${esc(w.id)}">편집</button><button type="button" data-del="${esc(w.id)}">삭제</button></div>`}).join(''):'<p class="hint">아직 올린 작업물이 없어요.</p>';
+  $('list').innerHTML=works.length?works.map(w=>{const t=thumbOf(w);return `<div class="item">${t?`<img src="${esc(t)}" alt="" loading="lazy">`:''}<div><b>${esc(w.title)}</b><span>${esc([w.kind==='photo'?'사진':'영상',[normCat(w.category),w.sub].filter(Boolean).join(' · '),w.date,`미디어 ${(w.media||[]).length}개`].filter(Boolean).join(' · '))}</span></div><button type="button" data-up="${esc(w.id)}" aria-label="${esc(w.title)} 위로">↑</button><button type="button" data-edit="${esc(w.id)}">편집</button><button type="button" data-del="${esc(w.id)}">삭제</button></div>`}).join(''):'<p class="hint">아직 올린 작업물이 없어요.</p>';
 };
 
 const connect=async()=>{
@@ -269,11 +276,11 @@ $('f').addEventListener('submit',async e=>{
     if(thumbFile){const r=await putFile(thumbFile,0);thumb={thumb:r.src,...(r.sm?{thumbSm:r.sm}:{})}}
     msg.textContent='목록 저장 중…';
     await loadWorks();
-    works.unshift({id,title,kind:k,category:$('cat').value,date:$('date').value.replace('-','.'),summary:$('desc0').value.trim(),desc:$('desc').value.trim(),...thumb,media:[...fileMedia,...media]});
+    works.unshift({id,title,kind:k,category:$('cat').value,...($('cat').value==='영상'?{sub:$('sub').value}:{}),date:$('date').value.replace('-','.'),summary:$('desc0').value.trim(),desc:$('desc').value.trim(),...thumb,media:[...fileMedia,...media]});
     await saveWorks(`포트폴리오 추가: ${title}`);
     fill.style.width='100%';renderList();
     msg.innerHTML='<span class="ok">올렸어요! 1~2분 뒤 사이트에 나와요.</span>';
-    HTMLFormElement.prototype.reset.call($('f'));sync();
+    HTMLFormElement.prototype.reset.call($('f'));sync();subSync();
   }catch(err){msg.innerHTML=`<span class="bad">실패했어요: ${esc(err.message)}</span>`}
   finally{$('save').disabled=false;setTimeout(()=>bar.hidden=true,1500)}
 });
@@ -281,7 +288,7 @@ $('f').addEventListener('submit',async e=>{
 // 편집
 const openEdit=w=>{
   editId=w.id;$('editBox').hidden=false;
-  $('eTitle').value=w.title||'';$('eCat').value=w.category||'기타';$('eDate').value=(w.date||'').replace('.','-');$('eSum').value=w.summary||'';$('eDesc').value=w.desc||'';$('eMsg').textContent='';
+  $('eTitle').value=w.title||'';$('eCat').value=normCat(w.category)||'기타';$('eSub').value=w.sub||VSUBS[0];subSync();$('eDate').value=(w.date||'').replace('.','-');$('eSum').value=w.summary||'';$('eDesc').value=w.desc||'';$('eMsg').textContent='';
   $('editBox').scrollIntoView({behavior:'smooth',block:'start'});$('eTitle').focus({preventScroll:true});
 };
 $('eCancel').addEventListener('click',()=>{editId=null;$('editBox').hidden=true});
@@ -295,6 +302,7 @@ $('ef').addEventListener('submit',async e=>{
     await loadWorks();
     const w=works.find(x=>x.id===editId);if(!w)throw new Error('작업물을 찾지 못했어요');
     Object.assign(w,{title,category:$('eCat').value,date:$('eDate').value.replace('-','.'),summary:$('eSum').value.trim(),desc:$('eDesc').value.trim()});
+    if(w.category==='영상')w.sub=$('eSub').value;else delete w.sub;
     await saveWorks(`포트폴리오 수정: ${title}`);renderList();
     $('eMsg').innerHTML='<span class="ok">저장했어요! 1~2분 뒤 사이트에 반영돼요.</span>';
   }catch(err){$('eMsg').innerHTML=`<span class="bad">저장 실패: ${esc(err.message)}</span>`}
