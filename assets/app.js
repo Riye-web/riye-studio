@@ -44,6 +44,11 @@ const store = {
 };
 // image source by size: sm (≈720px) for grids, opt (≈1600px) for viewer, src = original
 const imgOf = (m, size) => size === 'sm' ? (m.sm || m.opt || m.src) : (m.opt || m.src);
+// 화면 크기·픽셀 밀도에 맞춰 sm(720) / opt(1600) / hd(최대 3840) 중에서 브라우저가 고르게 해요
+const imgAttr = (m, size, sizes) => {
+  const set = [[m.sm, m.smW || 720], [m.opt, m.optW || 1600], [m.hd, m.hdW]].filter(([u, w]) => u && w);
+  return `src="${esc(imgOf(m, size))}"` + (set.length > 1 ? ` srcset="${esc(set.map(([u, w]) => `${u} ${w}w`).join(', '))}" sizes="${sizes}"` : '');
+};
 const coverOf = w => {
   if (w.thumb) return {type:'image', src:w.thumb, sm:w.thumbSm || w.thumb};
   for (const m of w.media || []) {
@@ -125,7 +130,7 @@ const svcList = $('svc');
 let svcIdx = -1;
 const svcVisual = (s, i) => {
   const w = works.find(x => x.category === s.cat && coverOf(x)?.type === 'image');
-  if (w) { const c = coverOf(w); return `<figure class="svc-img"><img src="${esc(imgOf(c,'sm'))}" alt="${esc(w.title)} 작업 이미지" loading="lazy" decoding="async"><figcaption>작업 예시 · ${esc(w.title)}</figcaption></figure>`; }
+  if (w) { const c = coverOf(w); return `<figure class="svc-img"><img ${imgAttr(c,'sm','(max-width:1023px) 50vw, 25vw')} alt="${esc(w.title)} 작업 이미지" loading="lazy" decoding="async"><figcaption>작업 예시 · ${esc(w.title)}</figcaption></figure>`; }
   // no real work in this category yet → abstract graphic, never presented as a project
   const hue = ['#ff3d7f','#ffd23f','#7cf3ff','#b9a8ff','#8bf0b0'][i % 5];
   return `<figure class="svc-img" aria-hidden="true"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="#16161a"/><circle cx="300" cy="80" r="120" fill="${hue}" opacity=".18"/><g stroke="#f2f0ec" stroke-width="2" fill="none" opacity=".85"><polygon points="200,70 290,120 200,170 110,120"/><polyline points="110,120 110,210 200,260 290,210 290,120"/><line x1="200" y1="170" x2="200" y2="260"/></g><polygon points="200,70 290,120 200,170 110,120" fill="${hue}" opacity=".9"/></svg></figure>`;
@@ -174,7 +179,7 @@ const cardHTML = w => {
   const c = coverOf(w);
   const media = !c ? '' : c.type === 'video'
     ? `<video data-src="${esc(c.src)}" muted playsinline preload="none" aria-hidden="true"></video>`
-    : `<img src="${esc(imgOf(c,'sm'))}" alt="" loading="lazy" decoding="async">`;
+    : `<img ${imgAttr(c,'sm','(max-width:760px) 100vw, 50vw')} alt="" loading="lazy" decoding="async">`;
   const cnt = (w.media || []).length;
   return `<button type="button" class="card" data-id="${esc(w.id)}" aria-label="${esc(w.title)} 자세히 보기"><div class="card-media">${media}<span class="card-tag">${esc(w.category || '기타')}</span>${cnt > 1 ? `<span class="card-cnt" aria-label="미디어 ${cnt}개">${cnt}</span>` : ''}<span class="card-view" aria-hidden="true">↗</span></div><div class="card-meta"><div><h3>${esc(w.title)}</h3>${w.summary ? `<p>${esc(w.summary)}</p>` : ''}</div>${w.date ? `<time>${esc(w.date)}</time>` : ''}</div></button>`;
 };
@@ -204,7 +209,7 @@ fetch('works.json?v=' + Date.now()).then(r => r.ok ? r.json() : []).then(d => { 
 // ---------- viewer ----------
 const viewer = $('viewer'), vBody = $('vBody');
 const mediaHTML = (m, w, k) => {
-  if (m.type === 'image') return `<figure><img src="${esc(imgOf(m,'opt'))}" alt="${esc(w.title)} 이미지 ${k+1}" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async">${m.opt && m.opt !== m.src ? `<a class="orig" href="${esc(m.src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>` : ''}</figure>`;
+  if (m.type === 'image') return `<figure><img ${imgAttr(m,'opt','(max-width:900px) 100vw, 72vw')} alt="${esc(w.title)} 이미지 ${k+1}" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async">${m.opt && m.opt !== m.src ? `<a class="orig" href="${esc(m.src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>` : ''}</figure>`;
   if (m.type === 'video') return `<figure><video src="${esc(m.src)}" controls playsinline preload="metadata"></video></figure>`;
   const y = ytId(m.src), v = vmId(m.src);
   if (y) return `<figure class="emb"><iframe src="https://www.youtube.com/embed/${y}" title="${esc(w.title)} 영상" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></figure>`;
