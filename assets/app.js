@@ -50,6 +50,7 @@ const store = {
 const imgOf = (m, size) => size === 'sm' ? (m.sm || m.opt || m.src) : (m.opt || m.src);
 // 화면 크기·픽셀 밀도에 맞춰 sm(720) / opt(1600) / hd(최대 3840) 중에서 브라우저가 고르게 해요
 const imgAttr = (m, size, sizes) => {
+  if (size === 'hd' && m.hd) return `src="${esc(m.hd)}"`; // 상세 보기는 4K 고화질이 기본
   const set = [[m.sm, m.smW || 720], [m.opt, m.optW || 1600], [m.hd, m.hdW]].filter(([u, w]) => u && w);
   return `src="${esc(imgOf(m, size))}"` + (set.length > 1 ? ` srcset="${esc(set.map(([u, w]) => `${u} ${w}w`).join(', '))}" sizes="${sizes}"` : '');
 };
@@ -207,7 +208,7 @@ fetch('works.json?v=' + Date.now()).then(r => r.ok ? r.json() : []).then(d => { 
 // ---------- viewer ----------
 const viewer = $('viewer'), vBody = $('vBody');
 const mediaHTML = (m, w, k) => {
-  if (m.type === 'image') return `<figure><img ${imgAttr(m,'opt','(max-width:900px) 100vw, 72vw')} alt="${esc(w.title)} 이미지 ${k+1}" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async">${m.opt && m.opt !== m.src ? `<a class="orig" href="${esc(m.src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>` : ''}</figure>`;
+  if (m.type === 'image') return `<figure><img ${imgAttr(m,'hd','(max-width:900px) 100vw, 72vw')} alt="${esc(w.title)} 이미지 ${k+1}" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async">${m.opt && m.opt !== m.src ? `<a class="orig" href="${esc(m.src)}" target="_blank" rel="noopener">원본 크기로 보기 ↗</a>` : ''}</figure>`;
   if (m.type === 'video') return `<figure><video src="${esc(m.src)}" controls playsinline preload="metadata"></video></figure>`;
   const y = ytId(m.src), v = vmId(m.src);
   if (y) return `<figure class="emb"><iframe src="https://www.youtube.com/embed/${y}" title="${esc(w.title)} 영상" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></figure>`;
